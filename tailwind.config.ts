@@ -1,0 +1,59 @@
+import type { Config } from "tailwindcss";
+
+const config: Config = {
+  content: [
+    "./app/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./lib/**/*.{ts,tsx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        base: "#050505",
+        surface: "#0a0a0b",
+        elevated: "#101013",
+        accent: {
+          DEFAULT: "#ff3b3b",
+          soft: "#ff6b6b",
+          dim: "#b91c1c",
+        },
+      },
+      fontFamily: {
+        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
+      },
+      maxWidth: {
+        content: "1200px",
+      },
+      boxShadow: {
+        glow: "0 0 0 1px rgba(255,59,59,0.18), 0 12px 40px -12px rgba(255,59,59,0.35)",
+        card: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 24px 60px -30px rgba(0,0,0,0.9)",
+      },
+      backgroundImage: {
+        grid: "linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px)",
+      },
+      keyframes: {
+        "blink-caret": {
+          "0%, 49%": { opacity: "1" },
+          "50%, 100%": { opacity: "0" },
+        },
+        "scan": {
+          "0%": { transform: "translateY(-100%)" },
+          "100%": { transform: "translateY(100%)" },
+        },
+        "pulse-ring": {
+          "0%": { transform: "scale(0.8)", opacity: "0.6" },
+          "100%": { transform: "scale(2.4)", opacity: "0" },
+        },
+      },
+      animation: {
+        caret: "blink-caret 1.1s steps(1) infinite",
+        scan: "scan 6s linear infinite",
+        "pulse-ring": "pulse-ring 3s ease-out infinite",
+      },
+    },
+  },
+  plugins: [],
+};
+
+export default config;
