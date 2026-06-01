@@ -6,7 +6,7 @@ import { projects, socials } from "@/lib/data";
 export default function Projects() {
     return (
         <section id="projects" className="section">
-            <div className="container-px">
+            <div className="container-px text-white">
                 <SectionHeading
                     eyebrow="Selected Work"
                     title="Tools & labs that move the needle"

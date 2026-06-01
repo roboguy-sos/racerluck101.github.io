@@ -11,7 +11,7 @@ const icons = [Award, Trophy, GraduationCap, Flag];
 export default function Achievements() {
     return (
         <section id="achievements" className="section">
-            <div className="container-px">
+            <div className="container-px text-white">
                 <SectionHeading
                     eyebrow="Achievements"
                     title="Credentials that hold up under scrutiny"
