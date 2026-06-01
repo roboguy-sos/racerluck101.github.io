@@ -2,8 +2,10 @@
 const nextConfig = {
   // Static HTML export for GitHub Pages
   output: "export",
-  // racerluck101.github.io is a USER page → served from the domain root,
-  // so no basePath / assetPrefix is required.
+  // Hosted as a PROJECT page under the roboguy-sos account:
+  // https://roboguy-sos.github.io/racerluck101.github.io/
+  // basePath makes routing + /_next assets resolve under the subpath.
+  basePath: "/racerluck101.github.io",
   images: {
     unoptimized: true,
   },

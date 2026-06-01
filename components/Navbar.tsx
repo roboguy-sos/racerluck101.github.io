@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X, Shield, Download } from "lucide-react";
-import { navLinks, profile } from "@/lib/data";
+import { navLinks, profile, asset } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 export default function Navbar() {
@@ -46,7 +46,7 @@ export default function Navbar() {
             </a>
           ))}
           <a
-            href={`/${profile.resume}`}
+            href={asset(profile.resume)}
             download
             className="btn-primary ml-2 px-4 py-2 text-xs"
           >
@@ -80,7 +80,7 @@ export default function Navbar() {
               </a>
             ))}
             <a
-              href={`/${profile.resume}`}
+              href={asset(profile.resume)}
               download
               onClick={() => setOpen(false)}
               className="btn-primary mt-2 w-full"

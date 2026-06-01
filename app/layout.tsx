@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { profile, socials } from "@/lib/data";
+import { profile, socials, siteUrl, asset } from "@/lib/data";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,7 +15,6 @@ const jetbrains = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://racerluck101.github.io";
 const description =
   "OSCP+ certified Penetration Tester, Red Team Operator, and Security Developer. Web exploitation, Active Directory attacks, Mythic C2, and AI-assisted security automation.";
 
@@ -59,7 +58,7 @@ export const metadata: Metadata = {
     googleBot: { index: true, follow: true },
   },
   icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+    icon: [{ url: asset("favicon.svg"), type: "image/svg+xml" }],
   },
 };
 

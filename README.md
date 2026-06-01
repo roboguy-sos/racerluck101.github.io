@@ -4,7 +4,7 @@ Premium, dark-mode portfolio for an **OSCP+ certified Penetration Tester / Red T
 
 Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion**, statically exported for **GitHub Pages**.
 
-🔗 **Live:** https://racerluck101.github.io
+🔗 **Live:** https://roboguy-sos.github.io/racerluck101.github.io/
 
 ---
 
@@ -41,16 +41,18 @@ The `out/` directory is a complete static site (`output: "export"` in `next.conf
 
 ## Deployment — GitHub Pages
 
-This repo is a **user page** (`racerluck101.github.io`), so it serves from the domain root — no `basePath` needed.
+This repo is hosted as a **project page** under the `roboguy-sos` account, so it
+serves from a subpath. `next.config.js` sets `basePath: "/racerluck101.github.io"`
+so routing and `_next/` assets resolve correctly.
 
 ### Automatic (recommended)
 
 A workflow at `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
 
-1. Push this repository to `https://github.com/racerluck101/racerluck101.github.io`.
+1. Repository: `https://github.com/roboguy-sos/racerluck101.github.io`.
 2. In **GitHub → Settings → Pages → Build and deployment**, set **Source = GitHub Actions**.
 3. Push to `main`. The Action runs `npm ci && npm run build` and publishes `./out`.
-4. Site goes live at **https://racerluck101.github.io**.
+4. Site goes live at **https://roboguy-sos.github.io/racerluck101.github.io/**.
 
 ### Manual
 

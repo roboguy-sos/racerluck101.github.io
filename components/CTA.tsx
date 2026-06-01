@@ -1,6 +1,6 @@
 import { Download, Mail, ArrowRight } from "lucide-react";
 import Reveal from "./Reveal";
-import { profile } from "@/lib/data";
+import { profile, asset } from "@/lib/data";
 
 export default function CTA() {
   return (
@@ -39,7 +39,7 @@ export default function CTA() {
                   Get in touch
                   <ArrowRight size={16} />
                 </a>
-                <a href={`/${profile.resume}`} download className="btn-ghost">
+                <a href={asset(profile.resume)} download className="btn-ghost">
                   <Download size={17} />
                   Download Resume
                 </a>

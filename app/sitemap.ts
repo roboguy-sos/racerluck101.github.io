@@ -1,11 +1,12 @@
 import type { MetadataRoute } from "next";
+import { siteUrl } from "@/lib/data";
 
 export const dynamic = "force-static";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
-      url: "https://racerluck101.github.io",
+      url: `${siteUrl}/`,
       changeFrequency: "monthly",
       priority: 1,
     },

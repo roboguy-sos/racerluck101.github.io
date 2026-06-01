@@ -3,6 +3,18 @@
  * Edit values here to update the site — components read from this module.
  */
 
+/**
+ * Deployment location. Hosted as a GitHub *project* page, so it lives under
+ * a subpath. `basePath` must match next.config.js and is prepended to links
+ * pointing at static files in /public (plain <a>/metadata aren't auto-prefixed).
+ */
+export const basePath = "/racerluck101.github.io";
+export const siteUrl = "https://roboguy-sos.github.io/racerluck101.github.io";
+
+/** Prefix a /public asset path with the deployment basePath. */
+export const asset = (path: string): string =>
+  `${basePath}/${path.replace(/^\/+/, "")}`;
+
 export const profile = {
   name: "Prateek Jaiswal",
   role: "Penetration Tester & Security Developer",

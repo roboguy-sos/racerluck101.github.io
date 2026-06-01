@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { Download, Mail, ShieldCheck, Trophy, Search, Crosshair } from "lucide-react";
 import NetworkBackground from "./NetworkBackground";
-import { profile, heroBadges } from "@/lib/data";
+import { profile, heroBadges, asset } from "@/lib/data";
 
 const badgeIcons = [ShieldCheck, Trophy, Search, Crosshair];
 
@@ -69,7 +69,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div variants={item} className="mt-8 flex flex-wrap items-center gap-3">
-            <a href={`/${profile.resume}`} download className="btn-primary">
+            <a href={asset(profile.resume)} download className="btn-primary">
               <Download size={17} />
               Download Resume
             </a>
