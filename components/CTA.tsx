@@ -13,7 +13,7 @@ export default function CTA() {
               aria-hidden
               style={{
                 background:
-                  "radial-gradient(60% 80% at 50% 0%, rgba(255,59,59,0.14), transparent 70%)",
+                  "radial-gradient(60% 80% at 50% 0%, rgba(0,230,118,0.14), transparent 70%)",
               }}
             />
             <div

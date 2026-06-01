@@ -26,7 +26,7 @@ export default function Hero() {
         aria-hidden
         style={{
           background:
-            "radial-gradient(60% 50% at 50% 0%, rgba(255,59,59,0.10), transparent 70%), radial-gradient(40% 40% at 80% 20%, rgba(255,59,59,0.06), transparent 70%)",
+            "radial-gradient(60% 50% at 50% 0%, rgba(0,230,118,0.10), transparent 70%), radial-gradient(40% 40% at 80% 20%, rgba(0,230,118,0.06), transparent 70%)",
         }}
       />
       <div className="absolute inset-0 opacity-70" aria-hidden>
@@ -55,9 +55,9 @@ export default function Hero() {
 
           <motion.h1
             variants={item}
-            className="mt-3 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl"
+            className="mt-3 text-balance text-4xl font-bold leading-[1.05] tracking-tight text-white drop-shadow-[0_0_34px_rgba(0,230,118,0.22)] sm:text-6xl lg:text-7xl"
           >
-            {profile.headline.replace(/\.$/, "")}
+            <span className="text-gradient-accent">{profile.headline.replace(/\.$/, "")}</span>
             <span className="text-accent">.</span>
           </motion.h1>
 

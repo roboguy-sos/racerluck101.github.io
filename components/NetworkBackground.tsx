@@ -33,7 +33,7 @@ export default function NetworkBackground() {
     let running = true;
     const pings: { x: number; y: number; t: number }[] = [];
 
-    const ACCENT = "255, 59, 59";
+    const ACCENT = "0, 230, 118";
 
     const resize = () => {
       width = canvas.clientWidth;

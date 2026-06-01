@@ -13,9 +13,9 @@ const config: Config = {
         surface: "#0a0a0b",
         elevated: "#101013",
         accent: {
-          DEFAULT: "#ff3b3b",
-          soft: "#ff6b6b",
-          dim: "#b91c1c",
+          DEFAULT: "#00e676",
+          soft: "#52ffa8",
+          dim: "#059669",
         },
       },
       fontFamily: {
@@ -26,7 +26,7 @@ const config: Config = {
         content: "1200px",
       },
       boxShadow: {
-        glow: "0 0 0 1px rgba(255,59,59,0.18), 0 12px 40px -12px rgba(255,59,59,0.35)",
+        glow: "0 0 0 1px rgba(0,230,118,0.18), 0 12px 40px -12px rgba(0,230,118,0.35)",
         card: "0 1px 0 0 rgba(255,255,255,0.04) inset, 0 24px 60px -30px rgba(0,0,0,0.9)",
       },
       backgroundImage: {

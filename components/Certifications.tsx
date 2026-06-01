@@ -30,7 +30,7 @@ export default function Certifications() {
                     aria-hidden
                     style={{
                       background:
-                        "radial-gradient(70% 60% at 50% 0%, rgba(255,59,59,0.12), transparent 70%)",
+                        "radial-gradient(70% 60% at 50% 0%, rgba(0,230,118,0.12), transparent 70%)",
                     }}
                   />
                   <div className="relative flex items-center justify-between">

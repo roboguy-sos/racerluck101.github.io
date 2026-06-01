@@ -17,7 +17,7 @@ export default function StatsDashboard() {
               aria-hidden
               style={{
                 background:
-                  "linear-gradient(180deg, transparent 0%, rgba(255,59,59,0.06) 50%, transparent 100%)",
+                  "linear-gradient(180deg, transparent 0%, rgba(0,230,118,0.06) 50%, transparent 100%)",
               }}
             />
             <div
