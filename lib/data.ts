@@ -44,7 +44,7 @@ export const socials = {
 } as const;
 
 export const bio = [
-  "I'm an OSCP+ certified offensive security engineer focused on finding and exploiting the flaws that put real systems at risk — from web application logic bugs to full Active Directory compromise. I approach every engagement with an attacker's mindset and a defender's discipline, translating technical findings into clear, business-ready risk.",
+  "I'm an OSCP+ certified offensive security engineer focused on finding and exploiting the flaws that they are not shown. I approach every engagement with an attacker's mindset and a defender's discipline, translating technical findings into clear, business-ready risk.",
   "My work spans red team adversary emulation, Mythic C2 operations, and hands-on exploitation across the kill chain — initial access, privilege escalation, lateral movement, and evasion. I pair that with a builder's background, writing secure-by-design applications and the offensive tooling that powers faster, deeper assessments.",
   "I'm increasingly focused on AI-assisted security automation: agentic recon pipelines, LLM-driven vulnerability triage, and workflow automation that scales offensive operations without sacrificing rigor. Continuous learning is the core of the craft — I train constantly across HackTheBox, PortSwigger Academy, and live CTF competitions to stay ahead of the threat curve.",
 ] as const;
