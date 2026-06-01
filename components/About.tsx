@@ -25,7 +25,7 @@ export default function About() {
             <article className="glass h-full p-7 sm:p-9">
               <div className="space-y-5">
                 {bio.map((para, i) => (
-                  <p key={i} className="text-pretty text-sm leading-relaxed text-white/70 sm:text-base">
+                  <p key={i} className="text-pretty text-sm leading-relaxed text-white sm:text-base">
                     {para}
                   </p>
                 ))}

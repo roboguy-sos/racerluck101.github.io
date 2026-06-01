@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { profile, socials, siteUrl, asset } from "@/lib/data";
+import SiteBackground from "@/components/SiteBackground";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -103,6 +104,7 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <SiteBackground />
         {children}
       </body>
     </html>

@@ -45,11 +45,27 @@ const config: Config = {
           "0%": { transform: "scale(0.8)", opacity: "0.6" },
           "100%": { transform: "scale(2.4)", opacity: "0" },
         },
+        "aurora-1": {
+          "0%, 100%": { transform: "translate(0,0) scale(1)" },
+          "50%": { transform: "translate(40px,-30px) scale(1.15)" },
+        },
+        "aurora-2": {
+          "0%, 100%": { transform: "translate(0,0) scale(1)" },
+          "50%": { transform: "translate(-50px,34px) scale(1.1)" },
+        },
+        "grid-pan": {
+          "0%": { backgroundPosition: "0 0" },
+          "100%": { backgroundPosition: "46px 46px" },
+        },
       },
       animation: {
         caret: "blink-caret 1.1s steps(1) infinite",
         scan: "scan 6s linear infinite",
+        "scan-slow": "scan 14s linear infinite",
         "pulse-ring": "pulse-ring 3s ease-out infinite",
+        "aurora-1": "aurora-1 18s ease-in-out infinite",
+        "aurora-2": "aurora-2 22s ease-in-out infinite",
+        "grid-pan": "grid-pan 8s linear infinite",
       },
     },
   },
