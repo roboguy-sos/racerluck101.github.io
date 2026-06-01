@@ -83,7 +83,7 @@ export default function Skills() {
                                             <h3 className="text-base font-semibold text-white">
                                                 {group.category}
                                             </h3>
-                                            <p className="text-xs text-white/45">
+                                            <p className="text-xs text-white/80">
                                                 {group.blurb}
                                             </p>
                                         </div>

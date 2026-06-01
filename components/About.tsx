@@ -117,7 +117,7 @@ export default function About() {
                                 <h4 className="mt-3 text-sm font-semibold text-white">
                                     {f.title}
                                 </h4>
-                                <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+                                <p className="mt-1.5 text-xs leading-relaxed text-white/90">
                                     {f.text}
                                 </p>
                             </div>

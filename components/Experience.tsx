@@ -52,7 +52,7 @@ export default function Experience() {
                                 {experience.responsibilities.map((r, i) => (
                                     <motion.li
                                         key={r}
-                                        className="flex items-start gap-2.5 text-sm text-white/70"
+                                        className="flex items-start gap-2.5 text-sm text-white/90"
                                         initial={{ opacity: 0, x: -8 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{

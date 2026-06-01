@@ -53,7 +53,7 @@ export default function Certifications() {
                                     <p className="relative mt-0.5 font-mono text-xs uppercase tracking-wider text-white/40">
                                         {cert.issuer}
                                     </p>
-                                    <p className="relative mt-3 flex-1 text-sm leading-relaxed text-white/60">
+                                    <p className="relative mt-3 flex-1 text-sm leading-relaxed text-white/90">
                                         {cert.detail}
                                     </p>
 
