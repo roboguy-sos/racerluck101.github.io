@@ -21,7 +21,7 @@ export default function Navbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-white/10 bg-base/80 backdrop-blur-xl"
+          ? "border-b border-white/10 bg-ink/80 backdrop-blur-xl"
           : "border-b border-transparent"
       )}
     >
@@ -67,7 +67,7 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div className="border-t border-white/10 bg-base/95 backdrop-blur-xl lg:hidden">
+        <div className="border-t border-white/10 bg-ink/95 backdrop-blur-xl lg:hidden">
           <div className="container-px flex flex-col py-3">
             {navLinks.map((link) => (
               <a

@@ -8,7 +8,7 @@ export default function SiteBackground() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-base"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-ink"
     >
       {/* panning grid */}
       <div className="absolute inset-0 animate-grid-pan bg-grid [background-size:46px_46px] opacity-50" />

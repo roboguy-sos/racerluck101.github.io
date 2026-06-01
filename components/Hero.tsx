@@ -33,7 +33,7 @@ export default function Hero() {
         <NetworkBackground />
       </div>
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-base"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-ink"
         aria-hidden
       />
 

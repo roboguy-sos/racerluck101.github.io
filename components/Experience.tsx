@@ -24,7 +24,7 @@ export default function Experience() {
                             aria-hidden
                         />
                         <span
-                            className="absolute left-[5px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-accent bg-base sm:left-[9px]"
+                            className="absolute left-[5px] top-1.5 h-3.5 w-3.5 rounded-full border-2 border-accent bg-ink sm:left-[9px]"
                             aria-hidden
                         />
 
