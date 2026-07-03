@@ -7,10 +7,11 @@ import {
     ExternalLink,
     Flag,
     Crosshair,
+    Key,
 } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
-import { profile, socials } from "@/lib/data";
+import { profile, socials, basePath } from "@/lib/data";
 
 const directCards = [
     {
@@ -30,6 +31,12 @@ const directCards = [
         label: "Location",
         value: profile.location,
         href: undefined,
+    },
+    {
+        icon: Key,
+        label: "PGP Key",
+        value: "public.pgp",
+        href: `${basePath}/public.pgp`,
     },
 ];
 
