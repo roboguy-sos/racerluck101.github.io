@@ -206,6 +206,18 @@
         color: var(--accent);
       }
 
+      .danger {
+        border-color: rgba(255, 100, 100, 0.35);
+        background: rgba(255, 100, 100, 0.06);
+        color: #ff9b9b;
+      }
+
+      .danger:hover:not(:disabled) {
+        border-color: rgba(255, 100, 100, 0.6);
+        background: rgba(255, 100, 100, 0.12);
+        color: #ffb3b3;
+      }
+
       .row {
         display: flex;
         flex-wrap: wrap;
@@ -843,9 +855,14 @@
                   <h2>Editing</h2>
                   <p id="editing-name" class="hint"></p>
                 </div>
-                <button id="close-edit" class="ghost" type="button">
-                  Close
-                </button>
+                <div class="row">
+                  <button id="delete-post" class="danger" type="button">
+                    Delete post
+                  </button>
+                  <button id="close-edit" class="ghost" type="button">
+                    Close
+                  </button>
+                </div>
               </div>
               <div class="editor-split" id="raw-split">
                 <textarea id="raw-content" class="raw" spellcheck="false"></textarea>
@@ -1863,6 +1880,56 @@
           }
         }
 
+        async function handleDelete() {
+          if (!currentFile || !currentSha) {
+            setText("log", "Open a post first.");
+            return;
+          }
+
+          var file = currentFile;
+          var sha = currentSha;
+
+          if (
+            !confirm(
+              "Delete " +
+                file +
+                "? This commits the deletion to main. Images under public/blog/ are not removed automatically."
+            )
+          ) {
+            return;
+          }
+
+          var button = $("delete-post");
+          setBusy(button, true, "Deleting...");
+          setText("log", "Deleting " + file + "...");
+
+          try {
+            await gh("content/blog/" + encodeURIComponent(file), {
+              method: "DELETE",
+              body: JSON.stringify({
+                message: "Delete " + file,
+                sha: sha,
+                branch: BRANCH,
+              }),
+            });
+
+            currentFile = null;
+            currentSha = null;
+            showNewView();
+            await refreshPosts();
+            setText(
+              "log",
+              "Deleted " +
+                file +
+                ". GitHub Actions will deploy in about 1–2 minutes. Images were left in public/blog/."
+            );
+          } catch (error) {
+            setText("log", error.message || "Could not delete post.");
+          } finally {
+            setBusy(button, false);
+          }
+        }
+
         async function handleSave() {
           if (!currentFile) {
             setText("log", "Open a post first.");
@@ -2066,6 +2133,7 @@
           $("close-edit").addEventListener("click", showNewView);
           $("new-form").addEventListener("submit", handleCreate);
           $("save").addEventListener("click", handleSave);
+          $("delete-post").addEventListener("click", handleDelete);
           $("upload-insert").addEventListener("click", handleImageUpload);
           $("new-body").addEventListener("input", function () {
             schedulePreview(updateNewPreview);
