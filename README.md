@@ -128,6 +128,46 @@ site. URL obscurity is not security — GitHub OAuth is the real gate. The Decap
 bundle is pinned to `3.17.3` and loaded with Subresource Integrity; update the
 version and hash deliberately when upgrading.
 
+### Temporary password editor (until OAuth is ready)
+
+If the OAuth proxy is not configured yet, there is a temporary fallback at:
+
+```txt
+https://roboguy-sos.github.io/racerluck101.github.io/admin/temp/
+```
+
+It is a single static page with no external scripts. It stores a **GitHub
+fine-grained token encrypted with your password** in this browser's
+`localStorage`, and uses it to create/edit posts and upload images.
+
+1. Create a **fine-grained GitHub token**:
+   - GitHub → Settings → Developer settings → Personal access tokens →
+     Fine-grained tokens → Generate new token.
+   - Repository access: **Only select repositories** →
+     `roboguy-sos/racerluck101.github.io`.
+   - Permissions: **Contents → Read and write**.
+   - Expiration: **7 days**.
+2. Open `/admin/temp/`.
+3. First visit: enter a strong admin password and paste the token. The token is
+   encrypted with AES-GCM + PBKDF2 and saved in this browser only.
+4. Later visits: enter the password only.
+5. Create/edit posts, upload images, and use **Save changes** / **Create post**.
+   Commits go to `main`, which triggers the normal Pages deployment.
+
+Security caveats:
+
+- A static site cannot verify a password server-side. The password only
+  encrypts the token; anyone who knows the password can unlock it.
+- The token is decrypted in memory while the tab is unlocked. Browser
+  extensions or malware could still read it.
+- Use a strong password, a fine-grained token, and a 7-day expiry.
+- Never use a classic PAT with broad `repo` scope for this.
+- Revoke the token and delete `public/admin/temp/` once the OAuth `/admin/`
+  editor is active.
+
+The temporary editor supports the new-post form and raw MDX editing. For
+advanced MDX components, the GitHub web UI remains available.
+
 ### Frontmatter
 
 ```yaml
@@ -209,7 +249,7 @@ content/_template.mdx  copy-paste post template
 content/blog/   Markdown/MDX posts
 lib/            data.ts (content) · blog.ts (post loader) · utils.ts
 public/         resume PDF, favicon, og-default.png, blog/<slug>/ images
-public/admin/   Decap CMS admin page + config.yml
+public/admin/   Decap CMS admin page + config.yml (+ temp/ password editor)
 workers/github-oauth/  Cloudflare Worker OAuth proxy for /admin/
 scripts/        generate-blog-art.mjs
 .github/        Pages deploy workflow

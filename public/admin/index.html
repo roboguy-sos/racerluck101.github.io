@@ -54,6 +54,7 @@
       (function () {
         var SETUP_URL =
           "https://github.com/roboguy-sos/racerluck101.github.io/blob/main/workers/github-oauth/README.md";
+        var TEMP_URL = "./temp/";
 
         function showSetup(message) {
           document.body.innerHTML =
@@ -70,6 +71,9 @@
             '<p><a href="' +
             SETUP_URL +
             '">Open the OAuth proxy setup guide</a></p>' +
+            '<p>Need to publish before OAuth is ready? <a href="' +
+            TEMP_URL +
+            '">Use the temporary password editor</a>.</p>' +
             "</main>";
         }
 
