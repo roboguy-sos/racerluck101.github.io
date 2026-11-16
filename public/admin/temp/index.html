@@ -887,6 +887,9 @@
                 <button id="save" class="primary" type="button">
                   Save changes
                 </button>
+                <button id="reload-post" class="ghost" type="button">
+                  Reload latest
+                </button>
                 <span id="edit-status" class="hint"></span>
               </div>
             </div>
@@ -1912,6 +1915,23 @@
           }
         }
 
+        function handleReloadPost() {
+          if (!currentFile) {
+            setText("log", "Open a post first.");
+            return;
+          }
+
+          if (
+            !confirm(
+              "Discard unsaved changes and reload the latest version from GitHub?"
+            )
+          ) {
+            return;
+          }
+
+          loadPost(currentFile);
+        }
+
         async function handleDelete() {
           if (!currentFile || !currentSha) {
             setText("log", "Open a post first.");
@@ -1956,7 +1976,15 @@
                 ". GitHub Actions will deploy in about 1–2 minutes. Images were left in public/blog/."
             );
           } catch (error) {
-            setText("log", error.message || "Could not delete post.");
+            var message = error.message || "Could not delete post.";
+            if (String(message).indexOf("409") === 0) {
+              setText(
+                "log",
+                "This post changed on GitHub since you opened it. Click Reload latest, then try deleting again."
+              );
+            } else {
+              setText("log", message);
+            }
           } finally {
             setBusy(button, false);
           }
@@ -1992,7 +2020,15 @@
             );
             await refreshPosts();
           } catch (error) {
-            setText("log", error.message || "Could not save.");
+            var message = error.message || "Could not save.";
+            if (String(message).indexOf("409") === 0) {
+              setText(
+                "log",
+                "This post changed on GitHub since you opened it, so the save was rejected to avoid overwriting the newer version. Your uploaded images are already saved. Copy any text you need, click Reload latest, then re-apply your edit."
+              );
+            } else {
+              setText("log", message);
+            }
           } finally {
             setBusy(button, false);
           }
@@ -2165,6 +2201,7 @@
           $("close-edit").addEventListener("click", showNewView);
           $("new-form").addEventListener("submit", handleCreate);
           $("save").addEventListener("click", handleSave);
+          $("reload-post").addEventListener("click", handleReloadPost);
           $("delete-post").addEventListener("click", handleDelete);
           $("upload-insert").addEventListener("click", handleImageUpload);
           $("new-body").addEventListener("input", function () {
