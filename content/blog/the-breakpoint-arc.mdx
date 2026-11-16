@@ -9,11 +9,41 @@ coverAlt: "Breakpoint Arc cover"
 draft: false
 featured: true
 ---
+### Hardware breakpoint vs Software breakpoint
 
-### Hardware breakpoint vs software breakpoint
+![test](/blog/the-breakpoint-arc/hard-vs-soft-breakpoints.png)
+#### Hardware breakpoint
+- use Dr0-3 registers to store the address where we want to stop execution flow with cordination of Dr7
+![Dr7.png](/blog/the-breakpoint-arc/dr7.png)
+- G0–G3 flags = 1 → the corresponding hardware breakpoint (Dr0–Dr3) is enabled.
+- This could be helpful for if you want to debug memory corruptions.
 
-![Comparison of hardware and software breakpoints](/blog/the-breakpoint-arc/hard-vs-soft-breakpoints.png "Figure 1 — Hardware vs. software breakpoints.")
+#### Software breakpoint
+- uses INT3 opcode 0xCC to hit breakpoint then reach back the orignal instruction and restore it.
+for example:
+```asm
+step 1
+rsi -> mov rax, rbx 
+       call <printf> 
+step 2 
+rsi -> cc rax, rbx  ; When executed it calls the debugger’s exception handler.
+       call <printf>;
 
-### DR7 register
+rsi -> 48 89 D8   ; target .text, original
+       call <printf>
+---------------------------------------
+; debugger reads 0x48 into bp.originalByte, writes 0xCC:
 
-![DR7 debug control register bit layout showing LEN and R/W fields for DR0–DR3, plus GD, GE, LE, and L/G bits](/blog/the-breakpoint-arc/dr7.png "Figure 2 — DR7 debug control register layout.")
+rsi -> CC 89 D8   ; target .text, patched
+       call <printf>
+; bp.originalByte == 0x48  (debugger memory)
+
+; breakpoint hits, debugger restores:
+
+rsi -> 48 89 D8   ; target .text, restored from bp.originalByte
+       call <printf>
+```
+- software breakpoints actually change the Cyclic redundancy check.
+
+
+
