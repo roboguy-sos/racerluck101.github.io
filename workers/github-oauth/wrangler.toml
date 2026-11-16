@@ -1,0 +1,14 @@
+name = "decap-oauth-proxy"
+main = "src/index.js"
+compatibility_date = "2026-01-01"
+
+# The Worker is reachable at:
+# https://decap-oauth-proxy.<your-subdomain>.workers.dev
+#
+# Set these as Worker secrets (never commit them):
+#   npx wrangler secret put GITHUB_CLIENT_ID
+#   npx wrangler secret put GITHUB_CLIENT_SECRET
+#   npx wrangler secret put ALLOWED_ORIGIN
+#
+# ALLOWED_ORIGIN must be the site origin only:
+#   https://roboguy-sos.github.io

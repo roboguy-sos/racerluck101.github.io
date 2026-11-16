@@ -82,7 +82,7 @@ The blog lives at **`/blog/`**. Posts are plain Markdown/MDX files in **`content
 
 ### Publish from GitHub (web UI)
 
-1. Open `content/blog/_template.mdx`, copy its contents, and create a new file at `content/blog/my-post-slug.mdx` (GitHub: **Add file → Create new file**).
+1. Open `content/_template.mdx`, copy its contents, and create a new file at `content/blog/my-post-slug.mdx` (GitHub: **Add file → Create new file**).
 2. Fill in the frontmatter. Keep the filename lowercase-hyphenated; it becomes the URL: `/blog/my-post-slug/`.
 3. Upload images to `public/blog/my-post-slug/`. On GitHub, create the folder first with a placeholder file if needed (e.g. `public/blog/my-post-slug/.gitkeep`), then use **Add file → Upload files**, or drag the whole folder onto the upload page.
 4. Reference images with a public path:
@@ -92,6 +92,41 @@ The blog lives at **`/blog/`**. Posts are plain Markdown/MDX files in **`content
    ```
 
 5. Set `draft: false` when ready. Commit to `main`; the GitHub Action builds and deploys the site.
+
+### Browser editor at `/admin/` (optional)
+
+The repo includes a **Decap CMS** admin page at:
+
+```txt
+https://roboguy-sos.github.io/racerluck101.github.io/admin/
+```
+
+It is a static page, not a secret endpoint. Publishing is protected by **GitHub
+OAuth**: only GitHub accounts with write access to this repository can save.
+There is no separate blog username/password.
+
+Before it works, deploy the small OAuth proxy in **`workers/github-oauth/`** and
+set its URL in **`public/admin/config.yml`**. Until then, `/admin/` shows a
+setup message instead of the login screen. Full steps:
+[`workers/github-oauth/README.md`](workers/github-oauth/README.md).
+
+Once configured, `/admin/` gives you:
+
+- A form-based editor for all frontmatter fields
+- Cover image upload to `public/blog/<slug>/`
+- Draft/published filters
+- A Markdown body editor
+- Direct commits to `main`, which trigger the existing Pages deployment
+
+Decap is Markdown-first. The sample post uses a custom `<Callout>` MDX
+component; the CMS may not preview that component perfectly, though it should
+preserve the source. For component-heavy posts, use the GitHub web UI or
+`github.dev`; for normal Markdown posts, `/admin/` is convenient.
+
+The admin page is marked `noindex, nofollow` and is not linked from the public
+site. URL obscurity is not security — GitHub OAuth is the real gate. The Decap
+bundle is pinned to `3.17.3` and loaded with Subresource Integrity; update the
+version and hash deliberately when upgrading.
 
 ### Frontmatter
 
@@ -170,9 +205,12 @@ app/blog/       blog index, post route, tag pages
 app/rss.xml/    generated RSS feed
 components/     Hero, Navbar, About, Skills, Terminal, ...
 components/blog/ PostCard, TableOfContents, MDX components
-content/blog/   Markdown/MDX posts + _template.mdx
+content/_template.mdx  copy-paste post template
+content/blog/   Markdown/MDX posts
 lib/            data.ts (content) · blog.ts (post loader) · utils.ts
 public/         resume PDF, favicon, og-default.png, blog/<slug>/ images
+public/admin/   Decap CMS admin page + config.yml
+workers/github-oauth/  Cloudflare Worker OAuth proxy for /admin/
 scripts/        generate-blog-art.mjs
 .github/        Pages deploy workflow
 ```

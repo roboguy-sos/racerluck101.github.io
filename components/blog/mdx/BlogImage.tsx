@@ -3,7 +3,7 @@ import "server-only";
 import fs from "node:fs";
 import path from "node:path";
 import { imageSize } from "image-size";
-import { asset, basePath } from "@/lib/data";
+import { asset, productionBasePath } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
 type BlogImageProps = Omit<
@@ -42,8 +42,8 @@ export default function BlogImage({
   if (!src) return null;
 
   const isExternal = /^https?:\/\//i.test(src);
-  const publicPath = src.startsWith(`${basePath}/`)
-    ? src.slice(basePath.length)
+  const publicPath = src.startsWith(`${productionBasePath}/`)
+    ? src.slice(productionBasePath.length)
     : src;
   const resolvedSrc = isExternal ? src : asset(publicPath);
 

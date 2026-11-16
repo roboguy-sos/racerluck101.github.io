@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="theme-color" content="#050505" />
+    <title>Field Notes — Admin</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        background: #050505;
+        color: #f5f5f5;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+      }
+
+      .setup {
+        max-width: 44rem;
+        margin: 12vh auto 0;
+        padding: 0 1.5rem;
+        line-height: 1.7;
+      }
+
+      .setup h1 {
+        font-size: 1.75rem;
+        letter-spacing: -0.02em;
+      }
+
+      .setup p,
+      .setup li {
+        color: rgba(255, 255, 255, 0.65);
+      }
+
+      .setup a {
+        color: #00e676;
+      }
+
+      .setup code {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 0.35rem;
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.15rem 0.35rem;
+        color: #52ffa8;
+      }
+    </style>
+  </head>
+  <body>
+    <noscript>This editor requires JavaScript.</noscript>
+
+    <script>
+      (function () {
+        var SETUP_URL =
+          "https://github.com/roboguy-sos/racerluck101.github.io/blob/main/workers/github-oauth/README.md";
+
+        function showSetup(message) {
+          document.body.innerHTML =
+            '<main class="setup">' +
+            "<h1>Admin is not configured yet</h1>" +
+            "<p>" +
+            message +
+            "</p>" +
+            "<ol>" +
+            "<li>Deploy the Cloudflare Worker in <code>workers/github-oauth/</code>.</li>" +
+            "<li>Set <code>backend.base_url</code> in <code>public/admin/config.yml</code> to the Worker URL.</li>" +
+            "<li>Commit and push so GitHub Pages redeploys the admin page.</li>" +
+            "</ol>" +
+            '<p><a href="' +
+            SETUP_URL +
+            '">Open the OAuth proxy setup guide</a></p>' +
+            "</main>";
+        }
+
+        fetch("config.yml", { cache: "no-store" })
+          .then(function (response) {
+            if (!response.ok) throw new Error("Could not load config.yml");
+            return response.text();
+          })
+          .then(function (config) {
+            if (config.indexOf("REPLACE-WITH-YOUR-WORKER") !== -1) {
+              showSetup(
+                "The GitHub OAuth proxy URL is still a placeholder, so login cannot work yet."
+              );
+              return;
+            }
+
+            var script = document.createElement("script");
+            script.src =
+              "https://unpkg.com/decap-cms@3.17.3/dist/decap-cms.js";
+            script.integrity =
+              "sha384-RWRzuHfiZSWCt3nEvG7B0v3cMgM1C2UuJmgBSL92GQh4uXmNSkbcthql/mNBqvjr";
+            script.crossOrigin = "anonymous";
+            script.onerror = function () {
+              showSetup("Could not load the Decap CMS bundle from unpkg.");
+            };
+            document.body.appendChild(script);
+          })
+          .catch(function () {
+            showSetup(
+              "Could not load public/admin/config.yml. Check that the file was deployed."
+            );
+          });
+      })();
+    </script>
+  </body>
+</html>

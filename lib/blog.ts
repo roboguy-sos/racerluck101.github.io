@@ -9,10 +9,20 @@ import { toc } from "mdast-util-toc";
 import { toString } from "mdast-util-to-string";
 import type { Link, List, ListItem, Paragraph } from "mdast";
 import { z } from "zod";
-import { asset, siteUrl } from "@/lib/data";
+import { asset, productionBasePath, siteUrl } from "@/lib/data";
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
+
+/**
+ * Decap CMS writes public paths with the deployed basePath. Normalize both
+ * forms (/blog/x and /racerluck101.github.io/blog/x) to the repo-relative form.
+ */
+function normalizePublicPath(publicPath: string): string {
+  return publicPath.startsWith(`${productionBasePath}/`)
+    ? publicPath.slice(productionBasePath.length)
+    : publicPath;
+}
 
 export type TocEntry = {
   id: string;
@@ -49,12 +59,16 @@ const dateSchema = z.coerce
   .date()
   .transform((value) => value.toISOString());
 
+/** Decap CMS writes empty strings for cleared optional fields. */
+const emptyToUndefined = (value: unknown) =>
+  value === "" || value === null ? undefined : value;
+
 const frontmatterSchema = z
   .object({
     title: z.string().trim().min(1, "title is required"),
     description: z.string().trim().min(1, "description is required"),
     date: dateSchema,
-    updated: dateSchema.optional(),
+    updated: z.preprocess(emptyToUndefined, dateSchema.optional()),
     tags: z
       .array(
         z
@@ -67,21 +81,25 @@ const frontmatterSchema = z
       )
       .default([]),
     type: z.enum(["research", "writeup", "tooling", "notes"]).optional(),
-    cover: z
-      .string()
-      .trim()
-      .optional()
-      .transform((value) => value || undefined),
-    coverAlt: z
-      .string()
-      .trim()
-      .optional()
-      .transform((value) => value || undefined),
+    cover: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().optional()
+    ),
+    coverAlt: z.preprocess(
+      emptyToUndefined,
+      z.string().trim().optional()
+    ),
     draft: z.boolean().default(false),
     featured: z.boolean().default(false),
-    series: z.string().trim().optional(),
-    seriesOrder: z.number().int().positive().optional(),
-    canonical: z.string().url().optional(),
+    series: z.preprocess(emptyToUndefined, z.string().trim().optional()),
+    seriesOrder: z.preprocess(
+      emptyToUndefined,
+      z.number().int().positive().optional()
+    ),
+    canonical: z.preprocess(
+      emptyToUndefined,
+      z.string().url().optional()
+    ),
   })
   .strict();
 
@@ -157,20 +175,19 @@ function assertCoverExists(file: string, frontmatter: Frontmatter): void {
 
   if (/^https?:\/\//i.test(frontmatter.cover)) return;
 
-  if (!frontmatter.cover.startsWith("/")) {
+  const publicPath = normalizePublicPath(frontmatter.cover);
+
+  if (!publicPath.startsWith("/")) {
     throw new Error(
       `${file}: cover must be a public path starting with "/blog/..." (received "${frontmatter.cover}").`
     );
   }
 
-  const coverPath = path.join(
-    PUBLIC_DIR,
-    frontmatter.cover.replace(/^\/+/, "")
-  );
+  const coverPath = path.join(PUBLIC_DIR, publicPath.replace(/^\/+/, ""));
 
   if (!fs.existsSync(coverPath)) {
     throw new Error(
-      `${file}: cover image not found at public${frontmatter.cover}. Upload it there or remove the cover field.`
+      `${file}: cover image not found at public${publicPath}. Upload it there or remove the cover field.`
     );
   }
 }
@@ -337,11 +354,14 @@ export function postUrl(slug: string): string {
 
 /** Turn a public path such as /blog/x/cover.png into an absolute URL. */
 export function absoluteAsset(publicPath: string): string {
-  return `${siteUrl}${publicPath.startsWith("/") ? publicPath : `/${publicPath}`}`;
+  const clean = normalizePublicPath(publicPath);
+  return `${siteUrl}${clean.startsWith("/") ? clean : `/${clean}`}`;
 }
 
 /** Resolve a local public asset through basePath while leaving external URLs alone. */
 export function resolveAsset(publicPath?: string): string | undefined {
   if (!publicPath) return undefined;
-  return /^https?:\/\//i.test(publicPath) ? publicPath : asset(publicPath);
+  return /^https?:\/\//i.test(publicPath)
+    ? publicPath
+    : asset(normalizePublicPath(publicPath));
 }

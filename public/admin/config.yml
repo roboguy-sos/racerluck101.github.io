@@ -1,0 +1,70 @@
+backend:
+  name: github
+  repo: roboguy-sos/racerluck101.github.io
+  branch: main
+  # Deploy the Cloudflare Worker in workers/github-oauth, then replace this
+  # placeholder with its URL (no trailing slash).
+  base_url: https://REPLACE-WITH-YOUR-WORKER.workers.dev
+  auth_endpoint: auth
+
+site_url: https://roboguy-sos.github.io/racerluck101.github.io
+display_url: https://roboguy-sos.github.io/racerluck101.github.io
+logo_url: https://roboguy-sos.github.io/racerluck101.github.io/favicon.svg
+
+# Global media defaults. The blog collection overrides these with per-post paths.
+media_folder: "public/blog"
+public_folder: "/racerluck101.github.io/blog"
+
+# Optional: uncomment to publish through pull requests instead of direct commits.
+# publish_mode: editorial_workflow
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    folder: content/blog
+    create: true
+    delete: true
+    extension: mdx
+    format: frontmatter
+    slug: "{{slug}}"
+    summary: "{{title}} — {{date}}"
+    sortable_fields: [date, title]
+    media_folder: "public/blog/{{slug}}"
+    public_folder: "/racerluck101.github.io/blog/{{slug}}"
+    view_filters:
+      - label: Drafts
+        field: draft
+        pattern: true
+      - label: Published
+        field: draft
+        pattern: false
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Date, name: date, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, picker_utc: true }
+      - { label: Updated, name: updated, widget: datetime, date_format: YYYY-MM-DD, time_format: false, format: YYYY-MM-DD, picker_utc: true, required: false }
+      - label: Tags
+        name: tags
+        widget: list
+        default: []
+        field:
+          label: Tag
+          name: tag
+          widget: string
+          pattern:
+            - "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+            - "Use lowercase-hyphenated tags, e.g. active-directory"
+      - { label: Type, name: type, widget: select, options: [research, writeup, tooling, notes], default: notes }
+      - { label: Cover image, name: cover, widget: image, required: false, hint: "1200×630 recommended. Uploaded under public/blog/<slug>/." }
+      - { label: Cover alt text, name: coverAlt, widget: string, required: false, hint: "Required when a cover image is set." }
+      - { label: Draft, name: draft, widget: boolean, default: true }
+      - { label: Featured, name: featured, widget: boolean, default: false }
+      - { label: Series, name: series, widget: string, required: false }
+      - { label: Series order, name: seriesOrder, widget: number, value_type: int, required: false }
+      - { label: Canonical URL, name: canonical, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown }

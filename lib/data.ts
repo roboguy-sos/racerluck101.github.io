@@ -9,8 +9,9 @@
  * links pointing at static files in /public (plain <a>/metadata aren't auto-prefixed).
  * It is empty in development so `npm run dev` serves from localhost:3000.
  */
+export const productionBasePath = "/racerluck101.github.io";
 export const basePath =
-  process.env.NODE_ENV === "production" ? "/racerluck101.github.io" : "";
+  process.env.NODE_ENV === "production" ? productionBasePath : "";
 export const siteUrl = "https://roboguy-sos.github.io/racerluck101.github.io";
 
 /** Prefix a /public asset path with the deployment basePath. */
