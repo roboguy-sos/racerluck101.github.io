@@ -1725,9 +1725,41 @@
           }
         }
 
+        function bodyStartIndex(raw) {
+          var match = String(raw || "").match(/^---\n[\s\S]*?\n---\n?/);
+          return match ? match[0].length : 0;
+        }
+
+        function appendToTextarea(textarea, text) {
+          var trimmed = textarea.value.replace(/\s+$/, "");
+          textarea.value =
+            trimmed + (trimmed ? "\n\n" : "") + text.trim() + "\n";
+          var position = textarea.value.length;
+          textarea.selectionStart = position;
+          textarea.selectionEnd = position;
+          textarea.focus();
+        }
+
         function insertIntoTextarea(textarea, text) {
           var start = textarea.selectionStart || 0;
           var end = textarea.selectionEnd || 0;
+
+          // If the editor was never focused, append to the end of the body
+          // instead of risking an insertion before the frontmatter.
+          if (start === 0 && end === 0) {
+            appendToTextarea(textarea, text);
+            return;
+          }
+
+          // Never insert an image inside the frontmatter block.
+          if (
+            textarea.id === "raw-content" &&
+            start < bodyStartIndex(textarea.value)
+          ) {
+            appendToTextarea(textarea, text);
+            return;
+          }
+
           var before = textarea.value.slice(0, start);
           var after = textarea.value.slice(end);
           textarea.value = before + text + after;
