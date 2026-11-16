@@ -1,0 +1,42 @@
+---
+title: "Your post title"
+description: "One or two sentences for cards, search results, and social previews."
+date: "2026-11-16"
+# updated: "2026-11-20"
+tags: ["web", "ssrf"]
+type: "notes" # research | writeup | tooling | notes
+# cover: "/blog/your-slug/cover.webp"
+# coverAlt: "Describe the cover image for screen readers and social cards"
+draft: true
+featured: false
+# series: "SSRF Deep Dive"
+# seriesOrder: 1
+# canonical: "https://example.com/original-post/"
+---
+
+Write a short intro that explains the problem and what the reader will learn.
+
+## Root cause
+
+Explain the underlying flaw, the trust boundary, and the affected component.
+
+## Exploitation
+
+Walk through the reproduction steps. Put payloads and terminal output in fenced
+code blocks:
+
+```bash
+curl -i "https://target.example/?url=http://169.254.169.254/latest/meta-data/"
+```
+
+## Impact
+
+Describe what an attacker can reach and what data or capability is exposed.
+
+## Detection and remediation
+
+Include defensive telemetry, detection ideas, and a concrete fix.
+
+## References
+
+- Link to vendor advisories, documentation, or related research.

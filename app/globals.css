@@ -115,3 +115,125 @@ body {
   background: rgba(0, 230, 118, 0.3);
   color: #fff;
 }
+
+/* -------------------------------------------------------------------------- */
+/* Blog article typography                                                    */
+/* -------------------------------------------------------------------------- */
+
+.article-prose.prose {
+  --tw-prose-body: rgba(255, 255, 255, 0.78);
+  --tw-prose-headings: #ffffff;
+  --tw-prose-lead: rgba(255, 255, 255, 0.7);
+  --tw-prose-links: #00e676;
+  --tw-prose-bold: #ffffff;
+  --tw-prose-counters: #52ffa8;
+  --tw-prose-bullets: rgba(0, 230, 118, 0.55);
+  --tw-prose-hr: rgba(255, 255, 255, 0.1);
+  --tw-prose-quotes: rgba(255, 255, 255, 0.8);
+  --tw-prose-quote-borders: rgba(0, 230, 118, 0.4);
+  --tw-prose-captions: rgba(255, 255, 255, 0.45);
+  --tw-prose-code: #52ffa8;
+  --tw-prose-pre-code: #f5f5f5;
+  --tw-prose-pre-bg: transparent;
+  --tw-prose-th-borders: rgba(255, 255, 255, 0.15);
+  --tw-prose-td-borders: rgba(255, 255, 255, 0.08);
+}
+
+.article-prose :where(h2, h3, h4) {
+  scroll-margin-top: 6rem;
+  text-wrap: balance;
+}
+
+.article-prose :where(p) {
+  text-wrap: pretty;
+}
+
+.article-prose :where(a) {
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.article-prose :where(a:hover) {
+  color: #52ffa8;
+}
+
+.article-prose :where(img) {
+  display: block;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+}
+
+.article-prose :where(figure) {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+.article-prose :where(figcaption) {
+  margin-top: 0.6rem;
+  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.article-prose :where(code):not(:where(pre code)) {
+  overflow-wrap: anywhere;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.35rem;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.15rem 0.35rem;
+  font-size: 0.875em;
+  font-weight: 500;
+}
+
+.article-prose :where(code):not(:where(pre code))::before,
+.article-prose :where(code):not(:where(pre code))::after {
+  content: none;
+}
+
+.article-prose :where(pre) {
+  tab-size: 2;
+}
+
+.article-prose :where(pre code) {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+.article-prose :where(blockquote) {
+  border-left-color: rgba(0, 230, 118, 0.35);
+  border-radius: 0 0.5rem 0.5rem 0;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 0.75rem 1rem;
+  font-style: normal;
+}
+
+.article-prose :where(blockquote p:first-of-type)::before,
+.article-prose :where(blockquote p:last-of-type)::after {
+  content: none;
+}
+
+.article-prose :where(hr) {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.article-prose .anchor-link {
+  margin-left: 0.4rem;
+  color: rgba(0, 230, 118, 0.55);
+  opacity: 0;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.article-prose :where(h2, h3, h4):hover .anchor-link {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .article-prose .anchor-link {
+    opacity: 1;
+  }
+}

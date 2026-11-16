@@ -7,6 +7,10 @@
 /.next/
 /out/
 
+# local static preview + browser test artifacts
+/.preview/
+/.playwright-mcp/
+
 # production
 /build
 

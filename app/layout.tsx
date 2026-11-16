@@ -3,6 +3,9 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { profile, socials, siteUrl, asset } from "@/lib/data";
 import SiteBackground from "@/components/SiteBackground";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import Analytics from "@/components/Analytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -40,10 +43,13 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: profile.name, url: socials.github }],
   creator: profile.name,
-  alternates: { canonical: siteUrl },
+  alternates: {
+    canonical: `${siteUrl}/`,
+    types: { "application/rss+xml": `${siteUrl}/rss.xml` },
+  },
   openGraph: {
     type: "website",
-    url: siteUrl,
+    url: `${siteUrl}/`,
     title: `${profile.name} — Offensive Security Engineer (OSCP+)`,
     description,
     siteName: `${profile.name} | Offensive Security`,
@@ -105,7 +111,10 @@ export default function RootLayout({
           Skip to content
         </a>
         <SiteBackground />
+        <Navbar />
         {children}
+        <Footer />
+        <Analytics />
       </body>
     </html>
   );

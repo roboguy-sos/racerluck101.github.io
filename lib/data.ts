@@ -4,16 +4,33 @@
  */
 
 /**
- * Deployment location. Hosted as a GitHub *project* page, so it lives under
- * a subpath. `basePath` must match next.config.js and is prepended to links
- * pointing at static files in /public (plain <a>/metadata aren't auto-prefixed).
+ * Deployment location. Hosted as a GitHub *project* page, so production builds
+ * live under a subpath. `basePath` must match next.config.js and is prepended to
+ * links pointing at static files in /public (plain <a>/metadata aren't auto-prefixed).
+ * It is empty in development so `npm run dev` serves from localhost:3000.
  */
-export const basePath = "/racerluck101.github.io";
+export const basePath =
+  process.env.NODE_ENV === "production" ? "/racerluck101.github.io" : "";
 export const siteUrl = "https://roboguy-sos.github.io/racerluck101.github.io";
 
 /** Prefix a /public asset path with the deployment basePath. */
 export const asset = (path: string): string =>
   `${basePath}/${path.replace(/^\/+/, "")}`;
+
+export const blog = {
+  title: "Field Notes",
+  description:
+    "Security research, lab notes, and writeups from web exploitation and Active Directory to red team tradecraft and security automation.",
+} as const;
+
+/**
+ * Privacy-friendly analytics. Create a free account at https://www.goatcounter.com,
+ * then put your GoatCounter site code here (for example "prateek"). Leave empty
+ * to disable analytics entirely.
+ */
+export const analytics = {
+  goatCounter: "",
+} as const;
 
 export const profile = {
   name: "Prateek Jaiswal",
@@ -280,11 +297,12 @@ export const stats: Stat[] = [
 ];
 
 export const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#terminal", label: "Terminal" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#certifications", label: "Certs" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#terminal", label: "Terminal" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/blog", label: "Blog" },
+  { href: "/#certifications", label: "Certs" },
+  { href: "/#contact", label: "Contact" },
 ] as const;

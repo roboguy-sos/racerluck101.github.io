@@ -1,0 +1,63 @@
+---
+title: "Welcome to Field Notes"
+description: "Why I'm publishing security research and lab notes, what you'll find here, and how this static Markdown blog is built."
+date: "2026-11-16"
+tags: ["meta", "security"]
+type: "notes"
+cover: "/blog/welcome-to-field-notes/cover.png"
+coverAlt: "Field Notes cover artwork with the title Security research, lab notes and writeups"
+featured: true
+draft: false
+---
+
+I spend most of my time breaking applications, mapping Active Directory attack paths, and building tooling that makes offensive work faster and more repeatable. Most of that work stays private — client reports, internal notes, and half-finished experiments. **Field Notes** is where I publish the parts that are useful to other people.
+
+This is not a feed of recycled payload lists. It is a working notebook: what I tested, why it worked, how to detect it, and what I would do differently next time.
+
+## What you'll find here
+
+| Track | What to expect |
+| --- | --- |
+| Web exploitation | SSRF, access control, injection, auth bypass, and the weird edge cases between them |
+| Active Directory | Kerberoasting, ACL abuse, ADCS, lateral movement, and attack-path thinking |
+| Red team tradecraft | C2 operations, evasion research, OPSEC, and adversary emulation |
+| Security automation | Recon pipelines, LLM-assisted triage, reporting, and tooling |
+| Lab notes | HTB, PortSwigger, CTFs, and smaller "today I learned" posts |
+
+I care about the defender's side too. A finding is more useful when it comes with impact, detection guidance, and a remediation path — not just a screenshot of a shell.
+
+## How this blog works
+
+The site is a Next.js static export. Posts are Markdown/MDX files in the repository, images live next to the site's public assets, and GitHub Actions builds and deploys everything on every push to `main`. There is no database, CMS, or server to keep alive.
+
+![Build pipeline: Markdown in Git becomes static HTML, then deploys to GitHub Pages](/blog/welcome-to-field-notes/pipeline.svg "Figure 1 — A post is written as Markdown, compiled at build time, and deployed as static files.")
+
+The writing workflow is intentionally boring:
+
+```bash title="terminal"
+npm install
+npm run dev
+# open http://localhost:3000/
+```
+
+When a post is ready, I commit it and push. The deploy workflow runs `npm ci && npm run build`, uploads the `out/` directory, and GitHub Pages serves the result.
+
+<Callout type="tip" title="Follow along">
+The blog has an [RSS feed](/rss.xml) if you prefer a reader. New posts also appear on the [blog index](/blog/).
+</Callout>
+
+## A note on OpSec
+
+I write about offensive security, so redaction is part of the job. Screenshots get cropped or blurred, tokens and cookies never go into a post, and lab IPs are used instead of real client infrastructure.
+
+<Callout type="opsec" title="Redact before you publish">
+Blur or remove credentials, JWTs, API keys, internal hostnames, email addresses, client names, and anything that identifies a real environment. Strip EXIF/GPS metadata from photos. When in doubt, leave it out.
+</Callout>
+
+The same rule applies to disclosure: no active CTF flags, no writeups for active HackTheBox machines, and no vulnerability details before a vendor has had a reasonable chance to patch.
+
+## What's next
+
+The first few posts will cover web exploitation patterns, Active Directory attack paths, and the automation I use during assessments. If you want to compare notes, the [contact page](/#contact) is the fastest way to reach me.
+
+If you are here for the portfolio, it is still at the [home page](/). If you are here for the writing, welcome to the notebook.

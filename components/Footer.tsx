@@ -1,5 +1,6 @@
-import { Shield, Linkedin, Github, Crosshair, Flag, ArrowUp } from "lucide-react";
-import { profile, socials } from "@/lib/data";
+import Link from "next/link";
+import { Shield, Linkedin, Github, Crosshair, Flag, ArrowUp, Rss } from "lucide-react";
+import { profile, socials, asset } from "@/lib/data";
 
 const links = [
   { icon: Linkedin, href: socials.linkedin, label: "LinkedIn" },
@@ -17,7 +18,7 @@ export default function Footer() {
       />
       <div className="container-px relative py-12">
         <div className="flex flex-col items-center gap-8 text-center">
-          <a href="#top" className="flex items-center gap-2.5">
+          <a href={asset("/")} className="flex items-center gap-2.5">
             <span className="grid h-9 w-9 place-items-center rounded-md border border-accent/40 bg-accent/10 text-accent">
               <Shield size={17} strokeWidth={2.5} />
             </span>
@@ -45,6 +46,28 @@ export default function Footer() {
               </a>
             ))}
           </div>
+
+          <nav
+            aria-label="Footer"
+            className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-mono text-xs text-white/40"
+          >
+            <Link href="/blog" className="transition-colors hover:text-accent">
+              Blog
+            </Link>
+            <a
+              href={asset("/rss.xml")}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-accent"
+            >
+              <Rss size={12} />
+              RSS
+            </a>
+            <a
+              href={`mailto:${profile.email}`}
+              className="transition-colors hover:text-accent"
+            >
+              Email
+            </a>
+          </nav>
 
           <div className="flex w-full flex-col items-center justify-between gap-4 border-t border-white/10 pt-8 sm:flex-row">
             <p className="font-mono text-xs text-white/35">

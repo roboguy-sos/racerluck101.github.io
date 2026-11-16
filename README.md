@@ -2,7 +2,7 @@
 
 Premium, dark-mode portfolio for an **OSCP+ certified Penetration Tester / Red Team Operator / Security Developer**.
 
-Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion**, statically exported for **GitHub Pages**.
+Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion · MDX**, statically exported for **GitHub Pages**.
 
 🔗 **Live:** https://roboguy-sos.github.io/racerluck101.github.io/
 
@@ -18,6 +18,7 @@ Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion**, statica
 - Sections: Hero · About · Achievements · Stats · Skills · Terminal · Experience · Projects · Certifications · CTA · Contact · Footer.
 - SEO: metadata, Open Graph, JSON-LD `Person` schema, `sitemap.xml`, `robots.txt`.
 - Accessibility: skip-link, focus rings, semantic landmarks, `prefers-reduced-motion`.
+- **Field Notes blog** — Markdown/MDX posts, tags, table of contents, syntax-highlighted code with copy buttons, RSS, per-post SEO/Open Graph, and optional GoatCounter analytics (set your site code in `lib/data.ts`).
 - Fully static export — no server required.
 
 ---
@@ -67,10 +68,97 @@ npm run build
 
 ## Updating content
 
-All copy lives in **`lib/data.ts`** — profile, bio, achievements, skills, experience,
-projects, certifications, stats, and social links. Edit there; components read from it.
+Portfolio copy lives in **`lib/data.ts`** — profile, bio, achievements, skills, experience,
+projects, certifications, stats, and social links. Blog posts live in **`content/blog/`**.
+Edit those files; components read from those sources.
 
 Replace the resume at **`public/Prateek_Jaiswal_Resume.pdf`** to update the download.
+
+---
+
+## Writing a blog post
+
+The blog lives at **`/blog/`**. Posts are plain Markdown/MDX files in **`content/blog/`**; images live in **`public/blog/<slug>/`**. There is no CMS, database, or server.
+
+### Publish from GitHub (web UI)
+
+1. Open `content/blog/_template.mdx`, copy its contents, and create a new file at `content/blog/my-post-slug.mdx` (GitHub: **Add file → Create new file**).
+2. Fill in the frontmatter. Keep the filename lowercase-hyphenated; it becomes the URL: `/blog/my-post-slug/`.
+3. Upload images to `public/blog/my-post-slug/`. On GitHub, create the folder first with a placeholder file if needed (e.g. `public/blog/my-post-slug/.gitkeep`), then use **Add file → Upload files**, or drag the whole folder onto the upload page.
+4. Reference images with a public path:
+
+   ```md
+   ![Alt text describing the screenshot](/blog/my-post-slug/burp-01.webp "Figure 1 — Optional visible caption")
+   ```
+
+5. Set `draft: false` when ready. Commit to `main`; the GitHub Action builds and deploys the site.
+
+### Frontmatter
+
+```yaml
+---
+title: "SSRF Beyond localhost"
+description: "One or two sentences for cards, search results, and social previews."
+date: "2026-11-16"
+updated: "2026-11-20"        # optional
+tags: ["web", "ssrf"]        # lowercase-hyphenated
+type: "research"             # research | writeup | tooling | notes
+cover: "/blog/ssrf-beyond-localhost/cover.webp"
+coverAlt: "Describe the cover image"
+draft: false
+featured: true               # optional
+series: "SSRF Deep Dive"     # optional
+seriesOrder: 1               # optional
+canonical: "https://..."     # optional, for cross-posts
+---
+```
+
+If a cover is set, `coverAlt` is required and the file must exist, otherwise the build fails with a clear error. Covers are used for cards and social previews; **1200×630** is the right size.
+
+### Image guidelines
+
+- Put images in `public/blog/<slug>/` using lowercase-hyphenated filenames.
+- Prefer **WebP** for screenshots and **SVG** for diagrams.
+- Keep screenshots at ≤1600 px wide and strip EXIF/GPS metadata. If you only use the GitHub web UI, compress in [Squoosh](https://squoosh.app/) before uploading.
+- Add useful alt text; use the Markdown title for a visible caption.
+- Avoid GIFs; use MP4/WebM for terminal recordings.
+- `next.config.js` sets `images.unoptimized: true`, so images are served exactly as committed — compress before uploading.
+
+The custom `BlogImage` component adds the GitHub Pages base path automatically, so write `/blog/...` paths without the `/racerluck101.github.io` prefix.
+
+### Drafts and preview
+
+- `draft: true` hides a post from production builds but shows it in `npm run dev`.
+- The repo is public, so do not put client data or secrets in drafts.
+- For a local preview:
+
+  ```bash
+  npm run dev
+  # open http://localhost:3000/ (blog: http://localhost:3000/blog/)
+  ```
+
+### RSS, SEO, and analytics
+
+- **RSS:** `/rss.xml` is generated from published posts.
+- **Sitemap:** `app/sitemap.ts` includes the blog index and every post.
+- **SEO:** each post gets canonical metadata, Open Graph/Twitter cards, and `BlogPosting` JSON-LD.
+- **Analytics:** set your GoatCounter site code in `lib/data.ts`:
+
+  ```ts
+  export const analytics = {
+    goatCounter: "your-site-code",
+  } as const;
+  ```
+
+  Create a free account at <https://www.goatcounter.com>. Leaving it empty disables the script, so no third-party requests load by default.
+
+### Security-writing checklist
+
+- Redact tokens, cookies, JWTs, API keys, internal IPs/hostnames, emails, and client names.
+- Blur sensitive fields in screenshots; don't just crop them.
+- Respect platform rules: no active CTF flags, no writeups for active HackTheBox machines.
+- Coordinate disclosure before publishing vulnerability details.
+- Never publish live malware; use benign PoCs, hashes, YARA rules, and detection guidance.
 
 ---
 
@@ -78,9 +166,14 @@ Replace the resume at **`public/Prateek_Jaiswal_Resume.pdf`** to update the down
 
 ```
 app/            layout, page, globals.css, sitemap, robots
-components/      Hero, Navbar, About, Skills, Terminal, StatsDashboard, ...
-lib/            data.ts (content) · utils.ts
-public/         resume PDF, favicon, .nojekyll
+app/blog/       blog index, post route, tag pages
+app/rss.xml/    generated RSS feed
+components/     Hero, Navbar, About, Skills, Terminal, ...
+components/blog/ PostCard, TableOfContents, MDX components
+content/blog/   Markdown/MDX posts + _template.mdx
+lib/            data.ts (content) · blog.ts (post loader) · utils.ts
+public/         resume PDF, favicon, og-default.png, blog/<slug>/ images
+scripts/        generate-blog-art.mjs
 .github/        Pages deploy workflow
 ```
 

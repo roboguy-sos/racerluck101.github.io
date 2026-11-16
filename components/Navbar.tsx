@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Menu, X, Shield, Download } from "lucide-react";
 import { navLinks, profile, asset } from "@/lib/data";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,42 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  function renderNavLink(
+    link: (typeof navLinks)[number],
+    mobile = false
+  ) {
+    const className = mobile
+      ? "rounded-md px-2 py-3 text-sm text-white/75 transition-colors hover:text-white"
+      : "rounded-md px-3 py-2 text-sm text-white/65 transition-colors hover:text-white";
+    const onClick = mobile ? () => setOpen(false) : undefined;
+
+    // Plain anchors preserve the #fragment when navigating from /blog/ back to
+    // the portfolio home page. Next Link can drop it across routes.
+    if (link.href.startsWith("/#")) {
+      return (
+        <a
+          key={link.href}
+          href={asset(link.href)}
+          onClick={onClick}
+          className={className}
+        >
+          {link.label}
+        </a>
+      );
+    }
+
+    return (
+      <Link
+        key={link.href}
+        href={link.href}
+        onClick={onClick}
+        className={className}
+      >
+        {link.label}
+      </Link>
+    );
+  }
+
   return (
     <header
       className={cn(
@@ -26,7 +63,7 @@ export default function Navbar() {
       )}
     >
       <nav className="container-px flex h-16 items-center justify-between" aria-label="Primary">
-        <a href="#top" className="group flex items-center gap-2.5">
+        <a href={asset("/")} className="group flex items-center gap-2.5">
           <span className="grid h-8 w-8 place-items-center rounded-md border border-accent/40 bg-accent/10 text-accent">
             <Shield size={16} strokeWidth={2.5} />
           </span>
@@ -36,15 +73,7 @@ export default function Navbar() {
         </a>
 
         <div className="hidden items-center gap-1 lg:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="rounded-md px-3 py-2 text-sm text-white/65 transition-colors hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => renderNavLink(link))}
           <a
             href={asset(profile.resume)}
             download
@@ -69,16 +98,7 @@ export default function Navbar() {
       {open ? (
         <div className="border-t border-white/10 bg-ink/95 backdrop-blur-xl lg:hidden">
           <div className="container-px flex flex-col py-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                className="rounded-md px-2 py-3 text-sm text-white/75 transition-colors hover:text-white"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => renderNavLink(link, true))}
             <a
               href={asset(profile.resume)}
               download
