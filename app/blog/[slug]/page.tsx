@@ -15,10 +15,11 @@ import {
   Pencil,
 } from "lucide-react";
 import { mdxComponents } from "@/components/blog/mdx";
+import Comments from "@/components/blog/Comments";
 import PostCard from "@/components/blog/PostCard";
 import ShareLinks from "@/components/blog/ShareLinks";
 import TableOfContents from "@/components/blog/TableOfContents";
-import { asset, blog, profile, siteUrl, socials } from "@/lib/data";
+import { asset, blog, comments, profile, siteUrl, socials } from "@/lib/data";
 import {
   absoluteAsset,
   formatDate,
@@ -375,6 +376,34 @@ export default async function PostPage({ params }: PostPageProps) {
               {related.map((relatedPost) => (
                 <PostCard key={relatedPost.slug} post={relatedPost} />
               ))}
+            </div>
+          </section>
+        ) : null}
+
+        {comments.enabled ? (
+          <section
+            id="comments"
+            className="mx-auto mt-20 max-w-3xl"
+            aria-label="Comments"
+          >
+            <div className="flex flex-wrap items-end justify-between gap-3">
+              <div>
+                <p className="eyebrow">
+                  <span className="text-accent">{"// "}</span>
+                  Discussion
+                </p>
+                <h2 className="heading mt-2 text-2xl">Comments</h2>
+              </div>
+              <span className="font-mono text-[11px] text-white/35">
+                Powered by GitHub
+              </span>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-white/55">
+              Sign in with GitHub to join the discussion. Comments are stored as
+              GitHub Issues.
+            </p>
+            <div className="mt-6">
+              <Comments />
             </div>
           </section>
         ) : null}

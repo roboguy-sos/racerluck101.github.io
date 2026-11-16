@@ -18,7 +18,7 @@ Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion · MDX**, 
 - Sections: Hero · About · Achievements · Stats · Skills · Terminal · Experience · Projects · Certifications · CTA · Contact · Footer.
 - SEO: metadata, Open Graph, JSON-LD `Person` schema, `sitemap.xml`, `robots.txt`.
 - Accessibility: skip-link, focus rings, semantic landmarks, `prefers-reduced-motion`.
-- **Field Notes blog** — Markdown/MDX posts, tags, table of contents, syntax-highlighted code with copy buttons, RSS, per-post SEO/Open Graph, and optional GoatCounter analytics (set your site code in `lib/data.ts`).
+- **Field Notes blog** — Markdown/MDX posts, tags, table of contents, syntax-highlighted code with copy buttons, RSS, per-post SEO/Open Graph, GitHub-powered comments, and optional GoatCounter analytics (set your site code in `lib/data.ts`).
 - Fully static export — no server required.
 
 ---
@@ -233,6 +233,37 @@ The custom `BlogImage` component adds the GitHub Pages base path automatically, 
 
   Create a free account at <https://www.goatcounter.com>. Leaving it empty disables the script, so no third-party requests load by default.
 
+### Comments
+
+Comments use **Utterances**, which stores each post's discussion as a GitHub
+Issue. There is no server or database.
+
+1. Make sure **Issues** are enabled in the repository.
+2. Install the Utterances app on the repository:
+   <https://github.com/apps/utterances>
+3. That is it. The first comment on a post creates its GitHub Issue.
+
+Configuration lives in `lib/data.ts`:
+
+```ts
+export const comments = {
+  enabled: true,
+  repo: "roboguy-sos/racerluck101.github.io",
+  issueTerm: "pathname",
+  theme: "github-dark",
+} as const;
+```
+
+- `enabled: false` hides the comments section.
+- `issueTerm: "pathname"` uses the post URL as the issue title. Because the site
+  is under a subpath, the issue title includes `/racerluck101.github.io/blog/...`.
+- Comments are moderated in **GitHub Issues**.
+- Commenters sign in with GitHub; the widget loads from `utteranc.es`.
+- If the Utterances app is not installed, the widget shows a setup error.
+- To switch to **Giscus** later, enable Discussions, install the Giscus app, and
+  replace `components/blog/Comments.tsx`; Giscus additionally needs repository
+  and discussion-category IDs.
+
 ### Security-writing checklist
 
 - Redact tokens, cookies, JWTs, API keys, internal IPs/hostnames, emails, and client names.
@@ -250,7 +281,7 @@ app/            layout, page, globals.css, sitemap, robots
 app/blog/       blog index, post route, tag pages
 app/rss.xml/    generated RSS feed
 components/     Hero, Navbar, About, Skills, Terminal, ...
-components/blog/ PostCard, TableOfContents, MDX components
+components/blog/ PostCard, TableOfContents, Comments, MDX components
 content/_template.mdx  copy-paste post template
 content/blog/   Markdown/MDX posts
 lib/            data.ts (content) · blog.ts (post loader) · utils.ts

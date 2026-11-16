@@ -33,6 +33,18 @@ export const analytics = {
   goatCounter: "",
 } as const;
 
+/**
+ * Blog comments. Utterances stores comments as GitHub Issues, so it needs no
+ * server. Install the app on the repository once:
+ * https://github.com/apps/utterances
+ */
+export const comments = {
+  enabled: true,
+  repo: "roboguy-sos/racerluck101.github.io",
+  issueTerm: "pathname",
+  theme: "github-dark",
+} as const;
+
 export const profile = {
   name: "Prateek Jaiswal",
   role: "Penetration Tester & Security Developer",
