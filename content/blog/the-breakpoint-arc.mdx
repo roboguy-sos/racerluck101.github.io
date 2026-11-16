@@ -19,7 +19,7 @@ featured: true
 ![Dr7.png](/blog/the-breakpoint-arc/dr7.png)
 - G0–G3 flags = 1 → the corresponding hardware breakpoint (Dr0–Dr3) is enabled.
 - This could be helpful for if you want to debug memory corruptions.
-
+![Screenshot](/blog/the-breakpoint-arc/debuggin-registers.png)
 #### Software breakpoint
 - uses INT3 opcode 0xCC to hit breakpoint then reach back the orignal instruction and restore it.
 for example:
@@ -70,5 +70,8 @@ A trace trap or other single-instruction mechanism signaled that one instruction
 
 #### EFLAGS
 ![Screenshot](/blog/the-breakpoint-arc/eflag.png)
+
+
+
 
 
