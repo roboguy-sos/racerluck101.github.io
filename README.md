@@ -165,8 +165,10 @@ Security caveats:
 - Revoke the token and delete `public/admin/temp/` once the OAuth `/admin/`
   editor is active.
 
-The temporary editor supports the new-post form and raw MDX editing. For
-advanced MDX components, the GitHub web UI remains available.
+The temporary editor supports the new-post form, raw MDX editing, image upload,
+and a live sanitized Markdown preview next to the body/raw editor. For advanced
+MDX components, the GitHub web UI remains available; the preview shows custom
+MDX components as text rather than executing them.
 
 ### Frontmatter
 

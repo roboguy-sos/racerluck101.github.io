@@ -293,6 +293,159 @@
         tab-size: 2;
       }
 
+      .editor-split {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1rem;
+        align-items: start;
+      }
+
+      .preview-block {
+        display: grid;
+        gap: 0.45rem;
+        min-width: 0;
+      }
+
+      .preview-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+
+      .preview {
+        min-height: 18rem;
+        max-height: 62vh;
+        overflow: auto;
+        border: 1px solid var(--line);
+        border-radius: 0.75rem;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 1rem;
+        color: rgba(255, 255, 255, 0.75);
+        font-size: 0.9rem;
+        line-height: 1.7;
+        overflow-wrap: anywhere;
+      }
+
+      .preview > :first-child {
+        margin-top: 0;
+      }
+
+      .preview > :last-child {
+        margin-bottom: 0;
+      }
+
+      .preview h1,
+      .preview h2,
+      .preview h3,
+      .preview h4,
+      .preview h5,
+      .preview h6 {
+        margin: 1.2em 0 0.5em;
+        color: #fff;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+
+      .preview h1 {
+        font-size: 1.55rem;
+      }
+
+      .preview h2 {
+        font-size: 1.3rem;
+      }
+
+      .preview h3 {
+        font-size: 1.12rem;
+      }
+
+      .preview p {
+        margin: 0.65rem 0;
+      }
+
+      .preview a {
+        color: var(--accent);
+        text-underline-offset: 2px;
+      }
+
+      .preview strong {
+        color: #fff;
+      }
+
+      .preview img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        margin: 0.9rem 0;
+        border: 1px solid var(--line);
+        border-radius: 0.6rem;
+      }
+
+      .preview pre {
+        margin: 0.8rem 0;
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 0.6rem;
+        background: #060606;
+        padding: 0.8rem;
+      }
+
+      .preview pre code {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        color: #d8d8d8;
+        font-size: 0.8rem;
+      }
+
+      .preview blockquote {
+        margin: 0.9rem 0;
+        border-left: 3px solid rgba(0, 230, 118, 0.4);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 0.5rem 0.8rem;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      .preview ul,
+      .preview ol {
+        margin: 0.6rem 0;
+        padding-left: 1.3rem;
+      }
+
+      .preview li {
+        margin: 0.25rem 0;
+      }
+
+      .preview hr {
+        margin: 1.2rem 0;
+        border: 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .preview table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 0.8rem 0;
+        font-size: 0.82rem;
+      }
+
+      .preview th,
+      .preview td {
+        border: 1px solid var(--line);
+        padding: 0.45rem 0.55rem;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      .preview th {
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+      }
+
+      .preview .table-wrap {
+        overflow-x: auto;
+      }
+
       hr {
         border: 0;
         border-top: 1px solid var(--line);
@@ -318,6 +471,16 @@
         font-size: 0.75rem;
         white-space: pre-wrap;
         overflow-wrap: anywhere;
+      }
+
+      @media (max-width: 1100px) {
+        .editor-split {
+          grid-template-columns: 1fr;
+        }
+
+        .preview {
+          max-height: none;
+        }
       }
 
       @media (max-width: 820px) {
@@ -511,10 +674,19 @@
                     Featured
                   </label>
                 </div>
-                <label>
-                  Body (Markdown / MDX)
-                  <textarea id="new-body" rows="16" required></textarea>
-                </label>
+                <div class="editor-split">
+                  <label>
+                    Body (Markdown / MDX)
+                    <textarea id="new-body" rows="16" required></textarea>
+                  </label>
+                  <div class="preview-block">
+                    <div class="preview-head">
+                      <h3>Preview</h3>
+                      <span class="hint">Approximate; MDX components render as text.</span>
+                    </div>
+                    <div id="new-preview" class="preview"></div>
+                  </div>
+                </div>
                 <p id="new-error" class="error" role="alert"></p>
                 <div class="row">
                   <button id="create" class="primary" type="submit">
@@ -534,7 +706,16 @@
                   Close
                 </button>
               </div>
-              <textarea id="raw-content" class="raw" spellcheck="false"></textarea>
+              <div class="editor-split">
+                <textarea id="raw-content" class="raw" spellcheck="false"></textarea>
+                <div class="preview-block">
+                  <div class="preview-head">
+                    <h3>Preview</h3>
+                    <span class="hint">Body only; frontmatter is not rendered.</span>
+                  </div>
+                  <div id="raw-preview" class="preview"></div>
+                </div>
+              </div>
               <div class="row">
                 <button id="save" class="primary" type="button">
                   Save changes
@@ -581,6 +762,10 @@
         var BRANCH = "main";
         var API = "https://api.github.com/repos/" + REPO + "/contents";
         var STORAGE_KEY = "fieldnotes-temp-admin-v1";
+        var siteBase =
+          location.pathname.indexOf("/racerluck101.github.io/") === 0
+            ? "/racerluck101.github.io"
+            : "";
 
         var $ = function (id) {
           return document.getElementById(id);
@@ -679,6 +864,334 @@
 
         function textToBase64(value) {
           return bytesToBase64(encoder.encode(value));
+        }
+
+        function escapeHtml(value) {
+          return String(value).replace(/[&<>"']/g, function (character) {
+            return {
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[character];
+          });
+        }
+
+        function safeUrl(value) {
+          var url = String(value || "").trim();
+          if (!url) return "#";
+          if (url.indexOf("//") === 0) return "#";
+          if (/^(https?:|mailto:)/i.test(url)) return url;
+          if (url.charAt(0) === "#") return url;
+          if (url.charAt(0) === "/") {
+            if (!siteBase) return url;
+            if (url.indexOf(siteBase + "/") === 0) return url;
+            return siteBase + url;
+          }
+          return "#";
+        }
+
+        function renderInline(value) {
+          var tokens = [];
+          var text = String(value || "");
+
+          function stash(html) {
+            tokens.push(html);
+            return "\u0000TOKEN" + (tokens.length - 1) + "\u0000";
+          }
+
+          text = text.replace(/`([^`]+)`/g, function (_, code) {
+            return stash("<code>" + escapeHtml(code) + "</code>");
+          });
+
+          text = text.replace(
+            /!\[([^\]]*)\]\(([^)\s]+)(?:\s+[^)]*)?\)/g,
+            function (_, alt, url) {
+              var source = safeUrl(url);
+              if (source === "#") return stash(escapeHtml(alt));
+              return stash(
+                '<img src="' +
+                  escapeHtml(source) +
+                  '" alt="' +
+                  escapeHtml(alt) +
+                  '" loading="lazy" />'
+              );
+            }
+          );
+
+          text = text.replace(
+            /\[([^\]]+)\]\(([^)\s]+)(?:\s+[^)]*)?\)/g,
+            function (_, label, url) {
+              return stash(
+                '<a href="' +
+                  escapeHtml(safeUrl(url)) +
+                  '" target="_blank" rel="noopener noreferrer">' +
+                  escapeHtml(label) +
+                  "</a>"
+              );
+            }
+          );
+
+          text = escapeHtml(text);
+          text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+          text = text.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+          text = text.replace(/(^|[^*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+          text = text.replace(/(^|[^_])_([^_\n]+)_/g, "$1<em>$2</em>");
+          text = text.replace(/~~([^~]+)~~/g, "<del>$1</del>");
+
+          return text.replace(/\u0000TOKEN(\d+)\u0000/g, function (_, index) {
+            return tokens[Number(index)] || "";
+          });
+        }
+
+        function renderTable(lines) {
+          if (lines.length < 2) return "";
+          var rows = lines.map(function (line) {
+            return line
+              .trim()
+              .replace(/^\|/, "")
+              .replace(/\|$/, "")
+              .split("|")
+              .map(function (cell) {
+                return cell.trim();
+              });
+          });
+          var header = rows[0] || [];
+          var body = rows.slice(2);
+          var html = '<div class="table-wrap"><table><thead><tr>';
+          header.forEach(function (cell) {
+            html += "<th>" + renderInline(cell) + "</th>";
+          });
+          html += "</tr></thead><tbody>";
+          body.forEach(function (row) {
+            html += "<tr>";
+            row.forEach(function (cell) {
+              html += "<td>" + renderInline(cell) + "</td>";
+            });
+            html += "</tr>";
+          });
+          html += "</tbody></table></div>";
+          return html;
+        }
+
+        function renderMarkdown(markdown) {
+          var lines = String(markdown || "")
+            .replace(/\r\n/g, "\n")
+            .split("\n");
+          var html = [];
+          var paragraph = [];
+          var listType = null;
+          var listItems = [];
+          var quoteLines = [];
+          var tableLines = [];
+          var inCode = false;
+          var codeLang = "";
+          var codeLines = [];
+          var index = 0;
+
+          function flushParagraph() {
+            if (paragraph.length) {
+              html.push("<p>" + renderInline(paragraph.join(" ")) + "</p>");
+              paragraph = [];
+            }
+          }
+
+          function flushList() {
+            if (listType) {
+              var tag = listType;
+              html.push(
+                "<" +
+                  tag +
+                  ">" +
+                  listItems
+                    .map(function (item) {
+                      return "<li>" + renderInline(item) + "</li>";
+                    })
+                    .join("") +
+                  "</" +
+                  tag +
+                  ">"
+              );
+              listType = null;
+              listItems = [];
+            }
+          }
+
+          function flushQuote() {
+            if (quoteLines.length) {
+              html.push(
+                "<blockquote>" +
+                  renderMarkdown(quoteLines.join("\n")) +
+                  "</blockquote>"
+              );
+              quoteLines = [];
+            }
+          }
+
+          function flushTable() {
+            if (tableLines.length) {
+              html.push(renderTable(tableLines));
+              tableLines = [];
+            }
+          }
+
+          function flushAll() {
+            flushParagraph();
+            flushList();
+            flushQuote();
+            flushTable();
+          }
+
+          function closeCodeBlock() {
+            html.push(
+              "<pre><code" +
+                (codeLang
+                  ? ' class="language-' + escapeHtml(codeLang) + '"'
+                  : "") +
+                ">" +
+                escapeHtml(codeLines.join("\n")) +
+                "</code></pre>"
+            );
+            inCode = false;
+            codeLang = "";
+            codeLines = [];
+          }
+
+          while (index < lines.length) {
+            var line = lines[index];
+            var fence = line.match(/^```(.*)$/);
+
+            if (fence) {
+              if (inCode) {
+                closeCodeBlock();
+              } else {
+                flushAll();
+                inCode = true;
+                codeLang = fence[1].trim().split(/\s+/)[0] || "";
+              }
+              index += 1;
+              continue;
+            }
+
+            if (inCode) {
+              codeLines.push(line);
+              index += 1;
+              continue;
+            }
+
+            if (!line.trim()) {
+              flushAll();
+              index += 1;
+              continue;
+            }
+
+            var heading = line.match(/^(#{1,6})\s+(.*)$/);
+            if (heading) {
+              flushAll();
+              var level = heading[1].length;
+              html.push(
+                "<h" +
+                  level +
+                  ">" +
+                  renderInline(heading[2]) +
+                  "</h" +
+                  level +
+                  ">"
+              );
+              index += 1;
+              continue;
+            }
+
+            if (/^\s*([-*_])\1\1+\s*$/.test(line)) {
+              flushAll();
+              html.push("<hr />");
+              index += 1;
+              continue;
+            }
+
+            var quote = line.match(/^\s*>\s?(.*)$/);
+            if (quote) {
+              flushParagraph();
+              flushList();
+              flushTable();
+              quoteLines.push(quote[1]);
+              index += 1;
+              continue;
+            }
+            if (quoteLines.length) flushQuote();
+
+            var list = line.match(/^\s*([-*+]|\d+\.)\s+(.*)$/);
+            if (list) {
+              flushParagraph();
+              flushQuote();
+              flushTable();
+              var listTag = /\d+\./.test(list[1]) ? "ol" : "ul";
+              if (listType && listType !== listTag) flushList();
+              listType = listTag;
+              listItems.push(list[2]);
+              index += 1;
+              continue;
+            }
+            if (listType) flushList();
+
+            if (
+              line.indexOf("|") !== -1 &&
+              index + 1 < lines.length &&
+              /^\s*\|?\s*:?-{3,}/.test(lines[index + 1])
+            ) {
+              flushAll();
+              tableLines.push(line);
+              index += 1;
+              while (
+                index < lines.length &&
+                lines[index].indexOf("|") !== -1 &&
+                lines[index].trim()
+              ) {
+                tableLines.push(lines[index]);
+                index += 1;
+              }
+              flushTable();
+              continue;
+            }
+
+            paragraph.push(line.trim());
+            index += 1;
+          }
+
+          flushAll();
+          if (inCode) closeCodeBlock();
+          return html.join("");
+        }
+
+        function bodyFromRaw(raw) {
+          var text = String(raw || "").replace(/\r\n/g, "\n");
+          var match = text.match(/^---\n[\s\S]*?\n---\n?/);
+          return match ? text.slice(match[0].length) : text;
+        }
+
+        var previewTimer = null;
+
+        function updateNewPreview() {
+          var target = $("new-preview");
+          if (target) target.innerHTML = renderMarkdown($("new-body").value);
+        }
+
+        function updateRawPreview() {
+          var target = $("raw-preview");
+          if (target) {
+            target.innerHTML = renderMarkdown(bodyFromRaw($("raw-content").value));
+          }
+        }
+
+        function updateActivePreview() {
+          if ($("edit-view").hidden) updateNewPreview();
+          else updateRawPreview();
+        }
+
+        function schedulePreview(fn) {
+          clearTimeout(previewTimer);
+          previewTimer = setTimeout(fn, 120);
         }
 
         function readStoredToken() {
@@ -921,6 +1434,7 @@
             setText("editing-name", name);
             $("new-view").hidden = true;
             $("edit-view").hidden = false;
+            updateRawPreview();
             setText("edit-status", "");
             setText("log", "Loaded " + name + ".");
           } catch (error) {
@@ -1062,6 +1576,7 @@
             $("new-date").value = today();
             $("new-draft").checked = true;
             slugTouched = false;
+            updateNewPreview();
             await refreshPosts();
             await loadPost(slug + ".mdx");
             setText(
@@ -1170,6 +1685,7 @@
               safeName +
               ")\n";
             insertIntoTextarea(activeBody(), markdown);
+            updateActivePreview();
             fileInput.value = "";
             setText(
               "upload-status",
@@ -1202,6 +1718,7 @@
           currentFile = null;
           currentSha = null;
           setText("log", "");
+          updateNewPreview();
           $("new-title").focus();
         }
 
@@ -1239,6 +1756,12 @@
           $("new-form").addEventListener("submit", handleCreate);
           $("save").addEventListener("click", handleSave);
           $("upload-insert").addEventListener("click", handleImageUpload);
+          $("new-body").addEventListener("input", function () {
+            schedulePreview(updateNewPreview);
+          });
+          $("raw-content").addEventListener("input", function () {
+            schedulePreview(updateRawPreview);
+          });
 
           $("new-title").addEventListener("input", function () {
             if (!slugTouched) {
@@ -1258,6 +1781,7 @@
           $("token").required = !encrypted;
           $("stored-hint").hidden = !encrypted;
           bindEvents();
+          updateNewPreview();
 
           if (!window.crypto || !crypto.subtle) {
             setText(
