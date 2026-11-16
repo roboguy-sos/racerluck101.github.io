@@ -11,6 +11,9 @@
 /.preview/
 /.playwright-mcp/
 
+# tool-generated local metadata
+/.commandcode/
+
 # production
 /build
 
