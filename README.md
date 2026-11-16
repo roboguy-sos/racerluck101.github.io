@@ -166,9 +166,11 @@ Security caveats:
   editor is active.
 
 The temporary editor supports the new-post form, raw MDX editing, image upload,
-and a live sanitized Markdown preview next to the body/raw editor. For advanced
-MDX components, the GitHub web UI remains available; the preview shows custom
-MDX components as text rather than executing them.
+and a live sanitized Markdown preview next to the body/raw editor. The preview
+styles `Callout`, renders `{expressions}` as inline code, and shows other MDX
+components as placeholders/code rather than executing them. For advanced MDX
+components, the GitHub web UI remains available. The preview can be expanded
+to full width, and the page header can be collapsed.
 
 ### Frontmatter
 

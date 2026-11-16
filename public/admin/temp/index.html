@@ -243,6 +243,15 @@
         margin-bottom: 1rem;
       }
 
+      .topbar.is-collapsed #topbar-title {
+        display: none;
+      }
+
+      .topbar.is-collapsed {
+        margin-bottom: 0.5rem;
+        justify-content: flex-end;
+      }
+
       .layout {
         display: grid;
         grid-template-columns: 280px minmax(0, 1fr);
@@ -295,9 +304,23 @@
 
       .editor-split {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
         gap: 1rem;
         align-items: start;
+      }
+
+      .editor-split.is-expanded {
+        grid-template-columns: 1fr;
+      }
+
+      .editor-split.is-expanded > label,
+      .editor-split.is-expanded > textarea {
+        display: none;
+      }
+
+      .editor-split.is-expanded .preview {
+        min-height: 70vh;
+        max-height: none;
       }
 
       .preview-block {
@@ -314,15 +337,15 @@
       }
 
       .preview {
-        min-height: 18rem;
-        max-height: 62vh;
+        min-height: 26rem;
+        max-height: 72vh;
         overflow: auto;
         border: 1px solid var(--line);
         border-radius: 0.75rem;
         background: rgba(255, 255, 255, 0.02);
         padding: 1rem;
         color: rgba(255, 255, 255, 0.75);
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         line-height: 1.7;
         overflow-wrap: anywhere;
       }
@@ -444,6 +467,105 @@
 
       .preview .table-wrap {
         overflow-x: auto;
+      }
+
+      .preview-callout {
+        margin: 0.9rem 0;
+        border: 1px solid var(--line);
+        border-radius: 0.7rem;
+        padding: 0.8rem;
+      }
+
+      .preview-callout-title {
+        margin-bottom: 0.35rem;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.66rem;
+        font-weight: 700;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .preview-callout.tip {
+        border-color: rgba(0, 230, 118, 0.25);
+        background: rgba(0, 230, 118, 0.06);
+      }
+
+      .preview-callout.tip .preview-callout-title {
+        color: var(--accent);
+      }
+
+      .preview-callout.warning {
+        border-color: rgba(255, 179, 71, 0.25);
+        background: rgba(255, 179, 71, 0.06);
+      }
+
+      .preview-callout.warning .preview-callout-title {
+        color: #ffcf8a;
+      }
+
+      .preview-callout.opsec {
+        border-color: rgba(255, 100, 100, 0.28);
+        background: rgba(255, 100, 100, 0.06);
+      }
+
+      .preview-callout.opsec .preview-callout-title {
+        color: #ff9b9b;
+      }
+
+      .preview-callout.note {
+        border-color: rgba(100, 180, 255, 0.25);
+        background: rgba(100, 180, 255, 0.06);
+      }
+
+      .preview-callout.note .preview-callout-title {
+        color: #9fcbff;
+      }
+
+      .preview .mdx-expression {
+        border-color: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.06);
+        color: var(--accent-soft);
+      }
+
+      .mdx-placeholder {
+        margin: 0.9rem 0;
+        border: 1px dashed rgba(255, 255, 255, 0.18);
+        border-radius: 0.7rem;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 0.7rem 0.8rem;
+      }
+
+      .mdx-placeholder-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .mdx-badge {
+        border: 1px solid var(--line);
+        border-radius: 0.35rem;
+        padding: 0.1rem 0.35rem;
+        color: var(--muted);
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .mdx-placeholder code {
+        font-size: 0.75rem;
+      }
+
+      .mdx-placeholder-body {
+        margin-top: 0.55rem;
+        color: var(--muted);
+      }
+
+      .preview-expand {
+        flex-shrink: 0;
+        padding: 0.3rem 0.5rem;
+        font-size: 0.7rem;
       }
 
       hr {
@@ -586,12 +708,22 @@
       </section>
 
       <section id="editor-view" hidden>
-        <header class="topbar">
-          <div>
+        <header class="topbar" id="topbar">
+          <div id="topbar-title">
             <p class="eyebrow">// Temporary Admin</p>
             <h1>Field Notes</h1>
           </div>
-          <button id="lock" class="ghost" type="button">Lock</button>
+          <div class="row">
+            <button
+              id="toggle-header"
+              class="ghost"
+              type="button"
+              aria-expanded="true"
+            >
+              Hide header
+            </button>
+            <button id="lock" class="ghost" type="button">Lock</button>
+          </div>
         </header>
 
         <div class="layout">
@@ -674,15 +806,24 @@
                     Featured
                   </label>
                 </div>
-                <div class="editor-split">
+                <div class="editor-split" id="new-split">
                   <label>
                     Body (Markdown / MDX)
-                    <textarea id="new-body" rows="16" required></textarea>
+                    <textarea id="new-body" rows="16"></textarea>
                   </label>
                   <div class="preview-block">
                     <div class="preview-head">
                       <h3>Preview</h3>
-                      <span class="hint">Approximate; MDX components render as text.</span>
+                      <div class="row">
+                        <span class="hint">Approximate; Callout is styled, other MDX shows as code/placeholders.</span>
+                        <button
+                          class="ghost preview-expand"
+                          type="button"
+                          data-split="new-split"
+                        >
+                          Expand
+                        </button>
+                      </div>
                     </div>
                     <div id="new-preview" class="preview"></div>
                   </div>
@@ -706,12 +847,21 @@
                   Close
                 </button>
               </div>
-              <div class="editor-split">
+              <div class="editor-split" id="raw-split">
                 <textarea id="raw-content" class="raw" spellcheck="false"></textarea>
                 <div class="preview-block">
                   <div class="preview-head">
                     <h3>Preview</h3>
-                    <span class="hint">Body only; frontmatter is not rendered.</span>
+                    <div class="row">
+                      <span class="hint">Body only; frontmatter is not rendered.</span>
+                      <button
+                        class="ghost preview-expand"
+                        type="button"
+                        data-split="raw-split"
+                      >
+                        Expand
+                      </button>
+                    </div>
                   </div>
                   <div id="raw-preview" class="preview"></div>
                 </div>
@@ -933,6 +1083,25 @@
             }
           );
 
+          text = text.replace(
+            /<([A-Z][A-Za-z0-9]*)\b([^>]*)\/>/g,
+            function (match) {
+              return stash(
+                '<code class="mdx-expression">' +
+                  escapeHtml(match) +
+                  "</code>"
+              );
+            }
+          );
+
+          text = text.replace(/\{([^{}\n]+)\}/g, function (_, expression) {
+            return stash(
+              '<code class="mdx-expression">{' +
+                escapeHtml(expression) +
+                "}</code>"
+            );
+          });
+
           text = escapeHtml(text);
           text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
           text = text.replace(/__([^_]+)__/g, "<strong>$1</strong>");
@@ -973,6 +1142,48 @@
           });
           html += "</tbody></table></div>";
           return html;
+        }
+
+        function renderMdxPlaceholder(name, raw, inner) {
+          var body = inner
+            ? '<div class="mdx-placeholder-body">' +
+              renderMarkdown(inner) +
+              "</div>"
+            : "";
+          return (
+            '<div class="mdx-placeholder"><div class="mdx-placeholder-head">' +
+            '<span class="mdx-badge">MDX · ' +
+            escapeHtml(name || "component") +
+            "</span>" +
+            "<code>" +
+            escapeHtml(raw) +
+            "</code></div>" +
+            body +
+            "</div>"
+          );
+        }
+
+        function renderCallout(openTag, inner) {
+          var typeMatch = openTag.match(/type=(?:"([^"]+)"|'([^']+)')/);
+          var titleMatch = openTag.match(/title=(?:"([^"]*)"|'([^']*)')/);
+          var type = typeMatch ? typeMatch[1] || typeMatch[2] : "note";
+          var title = titleMatch ? titleMatch[1] || titleMatch[2] : "";
+          var allowed = ["note", "tip", "warning", "opsec"];
+          if (allowed.indexOf(type) === -1) type = "note";
+
+          return (
+            '<aside class="preview-callout ' +
+            type +
+            '">' +
+            (title
+              ? '<div class="preview-callout-title">' +
+                escapeHtml(title) +
+                "</div>"
+              : "") +
+            "<div>" +
+            renderMarkdown(inner) +
+            "</div></aside>"
+          );
         }
 
         function renderMarkdown(markdown) {
@@ -1153,6 +1364,61 @@
               }
               flushTable();
               continue;
+            }
+
+            var selfClosingComponent = line.match(
+              /^\s*<([A-Z][A-Za-z0-9]*)\b([^>]*)\/>\s*$/
+            );
+            if (selfClosingComponent) {
+              flushAll();
+              html.push(
+                renderMdxPlaceholder(
+                  selfClosingComponent[1],
+                  line.trim(),
+                  ""
+                )
+              );
+              index += 1;
+              continue;
+            }
+
+            var openingComponent = line.match(
+              /^\s*<([A-Z][A-Za-z0-9]*)\b([^>]*)>\s*$/
+            );
+            if (openingComponent) {
+              var componentName = openingComponent[1];
+              var closingPattern = new RegExp(
+                "^\\s*</" + componentName + ">\\s*$"
+              );
+              var innerLines = [];
+              var closingIndex = index + 1;
+
+              while (
+                closingIndex < lines.length &&
+                !closingPattern.test(lines[closingIndex])
+              ) {
+                innerLines.push(lines[closingIndex]);
+                closingIndex += 1;
+              }
+
+              if (closingIndex < lines.length) {
+                flushAll();
+                if (componentName === "Callout") {
+                  html.push(
+                    renderCallout(line.trim(), innerLines.join("\n"))
+                  );
+                } else {
+                  html.push(
+                    renderMdxPlaceholder(
+                      componentName,
+                      line.trim(),
+                      innerLines.join("\n")
+                    )
+                  );
+                }
+                index = closingIndex + 1;
+                continue;
+              }
             }
 
             paragraph.push(line.trim());
@@ -1746,10 +2012,55 @@
           $("login-error").textContent = "";
         }
 
+        function applyHeaderCollapsed(collapsed, persist) {
+          $("topbar").classList.toggle("is-collapsed", collapsed);
+          $("toggle-header").textContent = collapsed
+            ? "Show header"
+            : "Hide header";
+          $("toggle-header").setAttribute(
+            "aria-expanded",
+            collapsed ? "false" : "true"
+          );
+
+          if (persist) {
+            try {
+              localStorage.setItem(
+                "fieldnotes-temp-header",
+                collapsed ? "1" : "0"
+              );
+            } catch {
+              // Ignore storage failures.
+            }
+          }
+        }
+
+        function bindPreviewExpand() {
+          document.querySelectorAll(".preview-expand").forEach(function (button) {
+            button.setAttribute("aria-expanded", "false");
+            button.addEventListener("click", function () {
+              var split = $(button.getAttribute("data-split"));
+              if (!split) return;
+              var expanded = split.classList.toggle("is-expanded");
+              button.textContent = expanded ? "Collapse" : "Expand";
+              button.setAttribute(
+                "aria-expanded",
+                expanded ? "true" : "false"
+              );
+            });
+          });
+        }
+
         function bindEvents() {
           $("login-form").addEventListener("submit", handleUnlock);
           $("reset").addEventListener("click", resetStoredToken);
           $("lock").addEventListener("click", lock);
+          $("toggle-header").addEventListener("click", function () {
+            applyHeaderCollapsed(
+              !$("topbar").classList.contains("is-collapsed"),
+              true
+            );
+          });
+          bindPreviewExpand();
           $("new-post").addEventListener("click", showNewView);
           $("refresh").addEventListener("click", refreshPosts);
           $("close-edit").addEventListener("click", showNewView);
@@ -1782,6 +2093,15 @@
           $("stored-hint").hidden = !encrypted;
           bindEvents();
           updateNewPreview();
+
+          var headerCollapsed = false;
+          try {
+            headerCollapsed =
+              localStorage.getItem("fieldnotes-temp-header") === "1";
+          } catch {
+            // Ignore storage failures.
+          }
+          applyHeaderCollapsed(headerCollapsed, false);
 
           if (!window.crypto || !crypto.subtle) {
             setText(
