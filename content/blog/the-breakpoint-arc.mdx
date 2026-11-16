@@ -45,5 +45,23 @@ rsi -> 48 89 D8   ; target .text, restored from bp.originalByte
 ```
 - software breakpoints actually change the Cyclic redundancy check.
 
+>now we have establish the basic difference between HB and SB let's focus on HB workings.
+
+# Hardware Breakpoints Algorithm
+
+- how code is being execute 
+```c
+opcodes  ->  thread  ->  stack-unwind  ->  registers
+   |            |             |               |
+ .text      RIP/fetch      frame walk      Dr0-7, EFLAGS
+
+```
+*means breakpoints are specific to thread not global*
+- Since hardware breakpoints must be saved in one of the Dr0-3 registers, each thread can install a maximum of 4 hardware breakpoints at the same time.
+- we need to use get and set the thread context using `GetThreadContext` and `SetThreadContext`
+- EXCEPTION_SINGLE_STEP
+A trace trap or other single-instruction mechanism signaled that one instruction has been executed. exception will be handled using a Vectored Exception Handler which is set using `AddVectoredExceptionHandler` and `RemoveVectoredExceptionHandler`
+
+![Screenshot](/blog/the-breakpoint-arc/bh-flow.png)
 
 
