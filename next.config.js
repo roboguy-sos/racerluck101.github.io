@@ -16,8 +16,9 @@ const nextConfig = {
   // Emit /about/index.html style routes so deep links resolve on GH Pages.
   trailingSlash: true,
   reactStrictMode: true,
-  // Required for next-mdx-remote's RSC output in development.
-  transpilePackages: ["next-mdx-remote"],
+  // Required for next-mdx-remote's RSC output in development, but not for the
+  // production static export. Keeping it dev-only speeds up CI builds.
+  transpilePackages: isProd ? [] : ["next-mdx-remote"],
 };
 
 module.exports = nextConfig;

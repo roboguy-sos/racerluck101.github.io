@@ -1,3 +1,5 @@
+// One-off art generator. Not used by the site build, so sharp is not a project
+// dependency. Install it temporarily when needed: npm install --no-save sharp
 import fs from "node:fs";
 import path from "node:path";
 import sharp from "sharp";
