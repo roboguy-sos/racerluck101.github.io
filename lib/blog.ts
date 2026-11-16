@@ -117,7 +117,7 @@ function formatIssues(error: z.ZodError): string {
 function buildToc(markdown: string): TocEntry[] {
   try {
     const tree = remark().parse(markdown);
-    const result = toc(tree, { minDepth: 2, maxDepth: 3 });
+    const result = toc(tree, { minDepth: 2, maxDepth: 4 });
 
     const walk = (list: List | undefined): TocEntry[] => {
       if (!list) return [];
