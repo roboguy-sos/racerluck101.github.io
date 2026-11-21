@@ -1,11 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Download, Mail, ShieldCheck, Trophy, Search, Crosshair } from "lucide-react";
+import {
+  BadgeCheck,
+  Crosshair,
+  Download,
+  Mail,
+  Search,
+  ShieldCheck,
+  Trophy,
+} from "lucide-react";
 import NetworkBackground from "./NetworkBackground";
 import { profile, heroBadges, asset } from "@/lib/data";
 
-const badgeIcons = [ShieldCheck, Trophy, Search, Crosshair];
+const badgeIcons = [ShieldCheck, BadgeCheck, Trophy, Search, Crosshair];
 
 const container = {
   hidden: {},
@@ -81,7 +89,7 @@ export default function Hero() {
 
           <motion.ul
             variants={item}
-            className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4"
+            className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3"
           >
             {heroBadges.map((badge, i) => {
               const Icon = badgeIcons[i];

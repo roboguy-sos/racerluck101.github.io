@@ -60,6 +60,7 @@ export const profile = {
 
 export const heroBadges = [
   { label: "OSCP+", sub: "OffSec Certified" },
+  { label: "GPEN", sub: "GIAC Certified" },
   { label: "HTB Top 500", sub: "Worldwide" },
   { label: "Security Researcher", sub: "Web · AD · C2" },
   { label: "Red Team Operator", sub: "Adversary Emulation" },
