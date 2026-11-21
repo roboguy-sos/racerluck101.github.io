@@ -1,7 +1,8 @@
 import { BadgeCheck, ExternalLink, ShieldCheck } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
-import { certifications } from "@/lib/data";
+import { asset, certifications } from "@/lib/data";
+import { cn } from "@/lib/utils";
 
 export default function Certifications() {
     return (
@@ -38,8 +39,25 @@ export default function Certifications() {
                                         }}
                                     />
                                     <div className="relative flex items-center justify-between">
-                                        <span className="grid h-11 w-11 place-items-center rounded-xl border border-accent/30 bg-accent/10 text-accent">
-                                            <ShieldCheck size={20} />
+                                        <span
+                                            className={cn(
+                                                "grid h-14 w-14 place-items-center rounded-xl border p-2",
+                                                cert.logo
+                                                    ? "border-white/10 bg-white/[0.04]"
+                                                    : "border-accent/30 bg-accent/10 text-accent"
+                                            )}
+                                        >
+                                            {cert.logo ? (
+                                                <img
+                                                    src={asset(cert.logo)}
+                                                    alt={`${cert.name} badge`}
+                                                    className="h-full w-full object-contain"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                            ) : (
+                                                <ShieldCheck size={20} />
+                                            )}
                                         </span>
                                         <span className="inline-flex items-center gap-1 rounded-full border border-accent/30 bg-accent/[0.08] px-2.5 py-1 font-mono text-[11px] text-accent">
                                             <BadgeCheck size={12} />

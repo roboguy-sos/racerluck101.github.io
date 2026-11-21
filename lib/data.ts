@@ -58,13 +58,19 @@ export const profile = {
   footerTagline: "Securing Systems. Building Trust.",
 } as const;
 
-export const heroBadges = [
-  { label: "OSCP+", sub: "OffSec Certified" },
-  { label: "GPEN", sub: "GIAC Certified" },
+export type HeroBadge = {
+  label: string;
+  sub: string;
+  logo?: string;
+};
+
+export const heroBadges: HeroBadge[] = [
+  { label: "OSCP+", sub: "OffSec Certified", logo: "/certs/oscp.png" },
+  { label: "GPEN", sub: "GIAC Certified", logo: "/certs/gpen.png" },
   { label: "HTB Top 500", sub: "Worldwide" },
   { label: "Security Researcher", sub: "Web · AD · C2" },
   { label: "Red Team Operator", sub: "Adversary Emulation" },
-] as const;
+];
 
 export const socials = {
   linkedin: "https://www.linkedin.com/in/prateek-jaiswal-1106ab334/",
@@ -269,6 +275,7 @@ export type Certification = {
   detail: string;
   href?: string;
   status: string;
+  logo?: string;
 };
 
 export const certifications: Certification[] = [
@@ -278,6 +285,7 @@ export const certifications: Certification[] = [
     detail: "Offensive Security Certified Professional+ — hands-on exploitation exam.",
     href: socials.oscp,
     status: "Verified",
+    logo: "/certs/oscp.png",
   },
   {
     name: "GPEN",
@@ -286,6 +294,7 @@ export const certifications: Certification[] = [
       "GIAC Penetration Tester — process-oriented penetration testing, environmental reconnaissance, exploitation, and reporting.",
     href: "https://www.credly.com/badges/9b4da30f-8695-45b3-8a7f-e983f8c3cfb7/public_url",
     status: "Verified",
+    logo: "/certs/gpen.png",
   },
   {
     name: "PortSwigger Web Security Academy",

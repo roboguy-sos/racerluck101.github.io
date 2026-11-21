@@ -98,7 +98,17 @@ export default function Hero() {
                   key={badge.label}
                   className="glass glass-hover group flex flex-col gap-2 p-4"
                 >
-                  <Icon size={18} className="text-accent" />
+                  {badge.logo ? (
+                    <img
+                      src={asset(badge.logo)}
+                      alt=""
+                      className="h-7 w-7 object-contain"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    <Icon size={18} className="text-accent" />
+                  )}
                   <div>
                     <p className="text-sm font-semibold text-white">{badge.label}</p>
                     <p className="font-mono text-[11px] uppercase tracking-wider text-white/45">
