@@ -32,7 +32,7 @@ function runCommand(cmd: string): string[] {
             return [
                 `${profile.name} — ${profile.role}`,
                 `Location : ${profile.location}`,
-                "Cert     : OSCP+ (OffSec Certified Professional+)",
+                "Cert     : OSCP+ · GPEN (GIAC Penetration Tester)",
                 "Rank     : HackTheBox Top 500 Worldwide",
                 "Focus    : Web exploitation · Active Directory · Red Team · AI security automation",
             ];

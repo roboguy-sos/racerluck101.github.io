@@ -20,18 +20,21 @@ const jetbrains = JetBrains_Mono({
 });
 
 const description =
-  "OSCP+ certified Penetration Tester, Red Team Operator, and Security Developer. Web exploitation, Active Directory attacks, Mythic C2, and AI-assisted security automation.";
+  "OSCP+ and GPEN certified Penetration Tester, Red Team Operator, and Security Developer. Web exploitation, Active Directory attacks, Mythic C2, and AI-assisted security automation.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${profile.name} — Offensive Security Engineer (OSCP+)`,
+    default: `${profile.name} — Offensive Security Engineer (OSCP+ · GPEN)`,
     template: `%s · ${profile.name}`,
   },
   description,
   keywords: [
     "Penetration Tester",
     "OSCP+",
+    "GPEN",
+    "GIAC Penetration Tester",
+    "GIAC",
     "Red Team Operator",
     "Offensive Security",
     "Web Application Pentesting",
@@ -50,13 +53,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: `${siteUrl}/`,
-    title: `${profile.name} — Offensive Security Engineer (OSCP+)`,
+    title: `${profile.name} — Offensive Security Engineer (OSCP+ · GPEN)`,
     description,
     siteName: `${profile.name} | Offensive Security`,
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — Offensive Security Engineer (OSCP+)`,
+    title: `${profile.name} — Offensive Security Engineer (OSCP+ · GPEN)`,
     description,
   },
   robots: {

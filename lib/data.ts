@@ -53,7 +53,7 @@ export const profile = {
   phone: "+91 9131048875",
   headline: "Breaking Applications Before Attackers Do.",
   subheadline:
-    "OSCP+ Certified Penetration Tester, Red Team Operator, and Security Developer specializing in web exploitation, Active Directory attacks, offensive security automation, and AI-assisted security workflows.",
+    "OSCP+ and GPEN Certified Penetration Tester, Red Team Operator, and Security Developer specializing in web exploitation, Active Directory attacks, offensive security automation, and AI-assisted security workflows.",
   resume: "Prateek_Jaiswal_Resume.pdf",
   footerTagline: "Securing Systems. Building Trust.",
 } as const;
@@ -74,7 +74,7 @@ export const socials = {
 } as const;
 
 export const bio = [
-  "I'm an OSCP+ certified offensive security engineer focused on finding and exploiting the flaws that they are not shown. I approach every engagement with an attacker's mindset and a defender's discipline, translating technical findings into clear, business-ready risk.",
+  "I'm an OSCP+ and GPEN certified offensive security engineer focused on finding and exploiting the flaws that they are not shown. I approach every engagement with an attacker's mindset and a defender's discipline, translating technical findings into clear, business-ready risk.",
   "My work spans red team adversary emulation, Mythic C2 operations, and hands-on exploitation across the kill chain — initial access, privilege escalation, lateral movement, and evasion. I pair that with a builder's background, writing secure-by-design applications and the offensive tooling that powers faster, deeper assessments.",
   "I'm increasingly focused on AI-assisted security automation: agentic recon pipelines, LLM-driven vulnerability triage, and workflow automation that scales offensive operations without sacrificing rigor. Continuous learning is the core of the craft — I train constantly across HackTheBox, PortSwigger Academy, and live CTF competitions to stay ahead of the threat curve.",
 ] as const;
@@ -276,6 +276,14 @@ export const certifications: Certification[] = [
     issuer: "OffSec",
     detail: "Offensive Security Certified Professional+ — hands-on exploitation exam.",
     href: socials.oscp,
+    status: "Verified",
+  },
+  {
+    name: "GPEN",
+    issuer: "GIAC",
+    detail:
+      "GIAC Penetration Tester — process-oriented penetration testing, environmental reconnaissance, exploitation, and reporting.",
+    href: "https://www.credly.com/badges/9b4da30f-8695-45b3-8a7f-e983f8c3cfb7/public_url",
     status: "Verified",
   },
   {

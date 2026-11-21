@@ -1,6 +1,6 @@
 # Prateek Jaiswal — Offensive Security Engineer Portfolio
 
-Premium, dark-mode portfolio for an **OSCP+ certified Penetration Tester / Red Team Operator / Security Developer**.
+Premium, dark-mode portfolio for an **OSCP+ and GPEN certified Penetration Tester / Red Team Operator / Security Developer**.
 
 Built with **Next.js 15 · TypeScript · TailwindCSS · Framer Motion · MDX**, statically exported for **GitHub Pages**.
 

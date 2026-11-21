@@ -13,7 +13,7 @@ export default function Certifications() {
                     description="Independently verifiable certifications and platform achievements."
                 />
 
-                <div className="mt-14 grid gap-5 md:grid-cols-3">
+                <div className="mt-14 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
                     {certifications.map((cert, i) => {
                         const Wrapper = cert.href ? "a" : "div";
                         return (
